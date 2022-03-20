@@ -1,8 +1,10 @@
 function zMenuClass:updateMenuPos(x,y)
+    self:setPointerImg(self.mouse_icons.hold)
     local start_pos = self.mouse_move_panel_state
     self.menu_master_panel:set_position(x-start_pos[1],y-start_pos[2])
 end
 function zMenuClass:updateMenuSize(x,y)
+    self:setPointerImg(self.mouse_icons.hold)
     local new_x = self.last_update_x and (x - self.last_update_x) or 0 
     local new_y = self.last_update_y and (y - self.last_update_y) or 0 
     local should_update_x = true

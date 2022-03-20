@@ -41,6 +41,15 @@ function zMenuClass:init(x,y,w,h,res_x,res_y)
         toggle_circle = hollow_icons and {3,2,27,26} or {70,2,27,26},
         toggle_slider = hollow_icons and {5,28,65,26} or {72,28,65,26},
     }
+    self.menu_colors = {
+        lightblue = self:rgb255(120,150,255)
+    }
+    self.mouse_icons = {
+        point = "link",
+        pointer = "arrow",
+        hold = "grab",
+        hand = "hand",
+    }
     self.mainPanel = self.wsMain:panel():panel({layer = 250000})
     self.menu_master_panel = self.mainPanel:panel({layer = 1,alpha = 1,w = w,h = h,x = x,y = y,visible = false})
     self:init_menu()
@@ -96,8 +105,8 @@ function zMenuClass:init_menu()
     self.profile_pic:text({text = tostring(Steam:userid()),x = 87,y = 69, font_size = 16,align = "left",font =  "fonts/font_small_mf",color = self:rgb255(255,255,255),layer = 20})
     self:add_profile_picture()
     self.master_panel_mouse_resize_panel = mp:panel({layer = 300, alpha = 1, x = mp:w()-18,w = 18, y = mp:h()-18,h = 18})
-    self.master_panel_mouse_resize_panel:gradient({blend_mode = "normal", orientation = "vertical",x = self.master_panel_mouse_resize_panel:w()-3,w=2,h=17,gradient_points = {1, self:rgb255(255,255,255,255),0.65, self:rgb255(255,255,255,255), 0, self:rgb255(0,0,0,0)}})
-    self.master_panel_mouse_resize_panel:gradient({blend_mode = "normal", orientation = "horizontal",y = self.master_panel_mouse_resize_panel:h()-3,h=2,w=17,gradient_points = {1, self:rgb255(255,255,255,255),0.65, self:rgb255(255,255,255,255), 0, self:rgb255(0,0,0,0)}})
+    self.master_panel_mouse_resize_panel:gradient({blend_mode = "normal", orientation = "vertical",x = self.master_panel_mouse_resize_panel:w()-3,w=2,h=17,gradient_points = {1, self.menu_colors.lightblue,0.65, self.menu_colors.lightblue, 0, self:rgb255(0,0,0,0)}})
+    self.master_panel_mouse_resize_panel:gradient({blend_mode = "normal", orientation = "horizontal",y = self.master_panel_mouse_resize_panel:h()-3,h=2,w=17,gradient_points = {1, self.menu_colors.lightblue,0.65, self.menu_colors.lightblue, 0, self:rgb255(0,0,0,0)}})
 end
 function zMenuClass:reload()
 

@@ -5,9 +5,16 @@ function zMenuClass:convertMousePos(x,y)
     local x_new, y_new = managers.mouse_pointer:convert_fullscreen_16_9_mouse_pos(x, y)
     return math.floor(x_new*self.mouse_convert_mul),math.floor(y_new*self.mouse_convert_mul)
 end
+function zMenuClass:setPointerImg(name)
+    managers.mouse_pointer:set_pointer_image(name or "arrow")
+end
 function zMenuClass:mouse_move(o,x,y)
     x,y = self:convertMousePos(x,y)
     self.menu_mouse_x,self.menu_mouse_y = x,y
+    self:setPointerImg(self.mouse_icons.arrow)
+    if self:isMouseInPanel(self.master_panel_mouse_resize_panel) then
+        self:setPointerImg(self.mouse_icons.hand)
+    end
     if self.mouse_move_panel_state then
         self:updateMenuPos(x,y)
         return

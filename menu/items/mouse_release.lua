@@ -5,9 +5,13 @@ function zMenuClass:mouse_release(o,button,x,y)
         self.mouse_resize_panel_state = nil
         self.last_update_y = nil
         self.last_update_x = nil
+        if self:isMouseInPanel(self.master_panel_mouse_resize_panel) then
+            self:setPointerImg(self.mouse_icons.hand)
+        end
         return
     elseif button == Idstring("1") then --RIGHT CLICK
         self.mouse_move_panel_state = nil
+        self:setPointerImg(self.mouse_icons.arrow)
         return
     elseif button == Idstring("2") then --MIDDLE CLICK
     elseif button == Idstring("mouse wheel up") then
