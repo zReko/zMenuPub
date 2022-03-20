@@ -20,9 +20,9 @@ local packages = {
     --"levels/narratives/pbr/jerry/world/world",
     --"levels/instances/unique/born/born_truck/world/world",
     --"levels/narratives/elephant/born/world/world",
-
 }
 function GameSetup:load_packages()
+    backed_up_load_packaged(self)
     for i, v in pairs(packages) do
         zMenuTools:loadPackage(v)
     end

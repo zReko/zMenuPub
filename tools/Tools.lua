@@ -27,18 +27,18 @@ function zMenuToolsClass:loadPackage(pack)
     if PackageManager:package_exists(pack) then
         canLoad = false
         self:setLoadedPackage(pack)
-        zMenuTools:logFileLoad("[ZM]", pack, "already loaded package")
+        self:logFileLoad("[ZM]", pack, "already loaded package")
     end
 
     if PackageManager:loaded(pack) then
         canLoad = false
         self:setLoadedPackage(pack)
-        zMenuTools:logFileLoad("[ZM]", pack, "already loaded package")
+        self:logFileLoad("[ZM]", pack, "already loaded package")
     end
     if canLoad then
         PackageManager:load(pack)
         self:setLoadedPackage(pack)
-        zMenuTools:logFileLoad("[ZM]", pack, "loaded package")
+        self:logFileLoad("[ZM]", pack, "loaded package")
     end
 end
 function zMenuToolsClass:setLoadedPackage(pack)
