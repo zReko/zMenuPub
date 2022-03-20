@@ -42,7 +42,7 @@ function zMenuClass:init(x,y,w,h,res_x,res_y)
         toggle_slider = hollow_icons and {5,28,65,26} or {72,28,65,26},
     }
     self.mainPanel = self.wsMain:panel():panel({layer = 250000})
-    self.menu_master_panel = self.mainPanel:panel({layer = 1,alpha = 1,w = w,h = h,x = x,y = y,visible = true})
+    self.menu_master_panel = self.mainPanel:panel({layer = 1,alpha = 1,w = w,h = h,x = x,y = y,visible = false})
     self:init_menu()
 end
 function zMenuClass:make_box(panel,ignore_background)
@@ -90,9 +90,47 @@ function zMenuClass:reload()
 
 end
 function zMenuClass:destory()
-
 end
-
+function zMenuClass:isMenuopen()
+    return self.menu_enabled
+end
+function zMenuClass:openMenu()
+    managers.menu._input_enabled = false
+	for _, menu in ipairs(managers.menu._open_menus) do
+		menu.input._controller:disable()
+    end
+	if not self._controller then
+        self._controller = managers.controller:create_controller("SK33T", nil, false)
+        self._controller:add_trigger("cancel", callback(self, self, "Cancel"))
+		self._controller:add_trigger("confirm", callback(self, self, "press_confirm"))
+		if managers.menu:is_pc_controller() then
+			managers.mouse_pointer:use_mouse({
+				mouse_move = callback(self, self, "mouse_move"),
+				mouse_press = callback(self, self, "mouse_press"),
+				mouse_release = callback(self, self, "mouse_release"),
+                id = self.menu_mouse_id})
+		end
+    end
+    self._controller:enable()
+    if not self.resizing_menu then
+        self:item_hover_stuff()
+    end
+    self.menu_enabled = true
+    self.menu_master_panel:set_visible(true)
+end
+function zMenuClass:closeMenu()
+    managers.mouse_pointer:remove_mouse(self.menu_mouse_id)
+	if self._controller then
+		self._controller:destroy()
+		self._controller = nil
+    end
+    managers.menu._input_enabled = true
+    for _, menu in ipairs(managers.menu._open_menus) do
+        menu.input._controller:enable()
+    end
+    self.menu_enabled = false
+    self.menu_master_panel:set_visible(false)
+end
 
 zMenuTools:logFileLoad("[ZM]","main.lua","loaded item")
 local path = zMenuTools:modPath()  .. "menu/items/"
