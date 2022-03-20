@@ -1,0 +1,11 @@
+{
+    "name" : "zMenu",
+    "description" : "",
+    "author" : "zReko",
+    "contact" : "zReko#0001",
+    "version" : "0.0.1",
+    "blt_version" : 2,
+    "image" : "assets/mod_icon.png",
+    "color" : "138 175 255",
+    "priority" : 0
+}
