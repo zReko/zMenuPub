@@ -73,7 +73,7 @@ function zMenuClass:make_box(panel,ignore_background,with_grow)
         if ignore_background then
             return
         end
-        panel:bitmap({name = "background_texture",texture = "guis/textures/background_pattern", texture_rect = {0,0,panel_w/self.pattern_scale_mul, panel_h/self.pattern_scale_mul},x = 4,y = 4,w = panel_w - 8,h = panel_h - 8,layer = 1})
+        panel:bitmap({name = "background_texture",texture = "guis/textures/background_pattern", texture_rect = {0,0,(panel_w-8)/self.pattern_scale_mul,(panel_h-8)/self.pattern_scale_mul},x = 4,y = 4,w = panel_w - 8,h = panel_h - 8,layer = 1})
         return
     end
     panel:rect({w = panel_w,h = panel_h,x = 0,y = 0,alpha = 1, color = self:rgb255(10,10,10)})
@@ -82,7 +82,7 @@ function zMenuClass:make_box(panel,ignore_background,with_grow)
     if ignore_background then
         return
     end
-    panel:bitmap({name = "background_texture",texture = "guis/textures/background_pattern", texture_rect = {0,0,panel_w/self.pattern_scale_mul, panel_h/self.pattern_scale_mul},x = 4,y = 4,w = panel_w - 8,h = panel_h - 8,layer = 1})
+    panel:bitmap({name = "background_texture",texture = "guis/textures/background_pattern", texture_rect = {0,0,(panel_w-8)/self.pattern_scale_mul,(panel_h-8)/self.pattern_scale_mul},x = 4,y = 4,w = panel_w - 8,h = panel_h - 8,layer = 1})
 end
 function zMenuClass:add_profile_picture()
     if not self.cached_profile_picture_data then
