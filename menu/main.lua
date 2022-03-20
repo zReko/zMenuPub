@@ -18,6 +18,16 @@ function zMenuClass:debug_panel_outline(panel,colorr,layer)
     panel:rect({x = panel:w()-1,w = 1,color = colorr,visible = true, alpha = 0.5,layer = layer or 1000})
 end
 function zMenuClass:init(x,y,w,h,res_x,res_y,open_on_init)
+    if not SystemFS:is_dir(zMenuTools:modPath() .. "menu_data/menu_data.json") then
+        io.open(zMenuTools:modPath() .. "menu_data/menu_data.json","a")
+    end
+    local file = io.open(zMenuTools:modPath() .. "menu_data/menu_data.json","r")
+    local text = file:read("*all")
+    if text ~= "" and (string.len(text) > 2) then
+        local temp = json.decode(text)
+        x,y,w,h = temp.x,temp.y,temp.w,temp.h
+    end
+    file:close()
     self.wsMain = zMenuTools:createCustomResWorkspace(res_x,res_y)
     self.wsMain:connect_keyboard(Input:keyboard())
     self.wsMain:connect_mouse(Input:mouse())

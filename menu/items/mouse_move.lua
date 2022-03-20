@@ -8,6 +8,12 @@ end
 function zMenuClass:setPointerImg(name)
     managers.mouse_pointer:set_pointer_image(name or "arrow")
 end
+function zMenuClass:saveMenuTransformData()
+    local file = io.open(zMenuTools:modPath() .. "menu_data/menu_data.json","w+")
+    local data = {x = self.menu_master_panel:x(),y=self.menu_master_panel:y(),w = self.menu_master_panel:w(),h = self.menu_master_panel:h()}
+    file:write(json.encode(data))
+    file:close()
+end
 function zMenuClass:mouse_move(o,x,y)
     x,y = self:convertMousePos(x,y)
     self.menu_mouse_x,self.menu_mouse_y = x,y
