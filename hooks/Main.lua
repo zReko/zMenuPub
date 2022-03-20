@@ -2,6 +2,8 @@ local hook_files = {
     ["lib/setups/gamesetup"] =                                      {"gamesetup.lua"},
     ["lib/setups/setup"] =                                          {"setup.lua"},
     ["core/lib/setups/coresetup"] =                                 {"coresetup.lua"},
+    ["lib/states/menumainstate"] =                                  {"menumainstate.lua"},
+    ["lib/states/ingamewaitingforplayers"] =                        {"ingamewaitingforplayers.lua"},
 }
 if not zMenuTools then
     local function getScriptPath()
