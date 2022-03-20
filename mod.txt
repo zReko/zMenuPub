@@ -24,6 +24,15 @@
             "run_in_menu": true,
             "run_in_game": true,
             "localized": false
+        },
+        {
+            "keybind_id": "keybind_toggle_2_id",
+            "name": "keybind_toggle_2",
+            "description": "asdasdasdasasd",
+            "script_path": "features/keybind_toggle2.lua",
+            "run_in_menu": true,
+            "run_in_game": true,
+            "localized": false
         }
     ]
 }

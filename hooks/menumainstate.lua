@@ -1,5 +1,5 @@
 local origi_at_enter = MenuMainState.at_enter
 function MenuMainState:at_enter(...)
-    dofile(zMenuTools:modPath()  .. "menu/main.lua")
+    zMenuTools:initMenu()
     origi_at_enter(self,...)
 end

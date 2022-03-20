@@ -167,6 +167,29 @@ function zMenuToolsClass:loadMenuFeatures()
         self:logFileLoad("[ZM]",v,"loaded feature")
     end
 end
-
+function zMenuToolsClass:initMenu(open_on_start)
+    --local resMAIN = {1600,900}
+    local resolution = {1920,1080}
+    --local resMAIN = {2560,1440}
+    --local resMAIN = {3840,2160}
+    local padding = 300
+    local x = padding
+    local y = padding
+    local w = resolution[1] - padding*2
+    local h = resolution[2] - padding*2
+    dofile(self:modPath()  .. "menu/main.lua")
+    zMenu = zMenuClass:new(x,y,w,h,resolution[1],resolution[2],open_on_start or false)
+end
+function zMenuToolsClass:reloadMenu()
+    if zMenu:isMenuopen()  then
+        zMenu:closeMenu()
+    end
+    zMenu.mainPanel:parent():remove(zMenu.mainPanel)
+    managers.gui_data:destroy_workspace(zMenu.wsMain)
+    zMenu = nil
+    self:initMenu(true)
+    zMenu:openMenu()
+    zMenu:test()
+end
 zMenuTools = zMenuToolsClass:new()
 zMenuTools:logFileLoad("[ZM]", "Tools.lua", "loaded")

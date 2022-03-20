@@ -17,7 +17,7 @@ function zMenuClass:debug_panel_outline(panel,colorr,layer)
     panel:rect({w = 1,color = colorr,visible = true,alpha = 0.5,layer = layer or 1000})
     panel:rect({x = panel:w()-1,w = 1,color = colorr,visible = true, alpha = 0.5,layer = layer or 1000})
 end
-function zMenuClass:init(x,y,w,h,res_x,res_y)
+function zMenuClass:init(x,y,w,h,res_x,res_y,open_on_init)
     self.wsMain = zMenuTools:createCustomResWorkspace(res_x,res_y)
     self.wsMain:connect_keyboard(Input:keyboard())
     self.wsMain:connect_mouse(Input:mouse())
@@ -51,7 +51,7 @@ function zMenuClass:init(x,y,w,h,res_x,res_y)
         hand = "hand",
     }
     self.mainPanel = self.wsMain:panel():panel({layer = 250000})
-    self.menu_master_panel = self.mainPanel:panel({layer = 1,alpha = 1,w = w,h = h,x = x,y = y,visible = false})
+    self.menu_master_panel = self.mainPanel:panel({layer = 1,alpha = 1,w = w,h = h,x = x,y = y,visible = open_on_init or false})
     self:init_menu()
 end
 function zMenuClass:make_box(panel,ignore_background,with_grow)
@@ -108,11 +108,6 @@ function zMenuClass:init_menu()
     self.master_panel_mouse_resize_panel:gradient({blend_mode = "normal", orientation = "vertical",x = self.master_panel_mouse_resize_panel:w()-3,w=2,h=17,gradient_points = {1, self.menu_colors.lightblue,0.65, self.menu_colors.lightblue, 0, self:rgb255(0,0,0,0)}})
     self.master_panel_mouse_resize_panel:gradient({blend_mode = "normal", orientation = "horizontal",y = self.master_panel_mouse_resize_panel:h()-3,h=2,w=17,gradient_points = {1, self.menu_colors.lightblue,0.65, self.menu_colors.lightblue, 0, self:rgb255(0,0,0,0)}})
 end
-function zMenuClass:reload()
-
-end
-function zMenuClass:destory()
-end
 function zMenuClass:isMenuopen()
     return self.menu_enabled
 end
@@ -149,6 +144,9 @@ end
 function zMenuClass:keyboard_cancel()
     
 end
+function zMenuClass:test()
+    log("AIUDS2222222222")
+end
 function zMenuClass:keyboard_confirm()
     
 end
@@ -158,13 +156,3 @@ for _, v in pairs(SystemFS:list(path)) do
     dofile(path .. v)
     zMenuTools:logFileLoad("[ZM]",v,"loaded item")
 end
---local resMAIN = {1600,900}
-local resolution = {1920,1080}
---local resMAIN = {2560,1440}
---local resMAIN = {3840,2160}
-local padding = 300
-local x = padding
-local y = padding
-local w = resolution[1] - padding*2
-local h = resolution[2] - padding*2
-zMenu = zMenuClass:new(x,y,w,h,resolution[1],resolution[2])
