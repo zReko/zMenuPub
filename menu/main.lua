@@ -104,11 +104,7 @@ function zMenuClass:openMenu()
         self._controller:add_trigger("cancel", callback(self, self, "keyboard_cancel"))
 		self._controller:add_trigger("confirm", callback(self, self, "keyboard_confirm"))
 		if managers.menu:is_pc_controller() then
-			managers.mouse_pointer:use_mouse({
-				mouse_move = callback(self, self, "mouse_move"),
-				mouse_press = callback(self, self, "mouse_press"),
-				mouse_release = callback(self, self, "mouse_release"),
-                id = self.menu_mouse_id})
+			managers.mouse_pointer:use_mouse({mouse_move = callback(self,self,"mouse_move"),mouse_press = callback(self,self,"mouse_press"),mouse_release = callback(self,self,"mouse_release"),id = self.menu_mouse_id})
 		end
     end
     self._controller:enable()
