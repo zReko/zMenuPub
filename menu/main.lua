@@ -37,6 +37,7 @@ function zMenuClass:init(x,y,w,h,res_x,res_y,open_on_init)
     self.menu_enabled = false
     self.scroll_data = {}
     self.item_height_data = {}
+    self.current_notifications = {}
     self.pattern_scale_mul = 2
     self.mouse_convert_mul = res_y/720
     local hollow_icons = true

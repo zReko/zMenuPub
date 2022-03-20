@@ -1,6 +1,50 @@
 local current_time = 0
+function zMenuClass:checkMousePos(data)
+    local panel = data.main_panel
+    if self:isMouseInPanel(panel) and self:isMenuopen() and data.inside_box == false then
+        panel:stop()
+        panel:animate(function(o) zMenuTools:animate_UI(0.2,
+            function(p)
+                log(math.lerp(o:alpha(),0.1,p))
+                o:set_alpha(math.lerp(o:alpha(),0.1,p))
+            end)
+        end)
+        data.inside_box = true
+    elseif not self:isMouseInPanel(panel) or not self:isMenuopen() and data.inside_box == true then
+        panel:stop()
+        panel:animate(function(o) zMenuTools:animate_UI(0.4,
+            function(p)
+                o:set_alpha(math.lerp(o:alpha(),1,p))
+            end)
+        end)
+        data.inside_box = false
+    end
+end
+function zMenuClass:movePanelLeft(id)
+    local item = self.current_notifications[id]
+    for i,v in pairs(self.current_notifications) do
+        if i < id then
+            self.current_notifications[i].panel_y = self.current_notifications[i].panel_y + item.height + 2
+        end
+    end
+    item.main_panel:set_layer(item.main_panel:layer()-5)
+    item.text_panel:animate(function(o) zMenuTools:animate_UI(1,
+        function(p)
+            item.main_panel:set_x(math.lerp(item.main_panel:x(),-item.main_panel:w() - 60,p))
+            local current_y = (item.main_panel:y() - item.panel_y)/20
+            item.main_panel:set_y(item.main_panel:y()-current_y)
+        end)
+        item.main_panel:parent():remove(item.main_panel)
+    end)
+end
 function zMenuClass:updateNotifications()
     current_time = current_time + zMenuTools:currentTimeDelta()
+    for i,v in pairs(self.current_notifications) do
+        if v.current_time < current_time then
+            self:movePanelLeft(i)
+            table.remove(self.current_notifications,i)
+        end
+    end
 end
 local function replace(str, what, with)
     what = string.gsub(what, "[%(%)%.%+%-%*%?%[%]%^%$%%]", "%%%1") -- escape pattern
@@ -45,8 +89,7 @@ function zMenuClass:showNotification(params)
     local text_width_px = select(3,text_panel:text_rect()) + 2
     notification_panel:set_w(text_width_px+14)
     notification_panel:set_h(text_height_px+11)
-    notification_panel:set_y(parent_panel:h()-50)
-
+    notification_panel:set_y(parent_panel:h())
     if icon then
         local yes_icon = notification_panel:bitmap({texture = "guis/textures/z_menu_icons",x = notification_panel:w()+6,y = (notification_panel:h()/2)-16,rotation = 0.0001,texture_rect = icon,w = 100,h = 100,layer = 20000,color = icon_color,alpha = 0.8})
         local state = true
@@ -83,10 +126,7 @@ function zMenuClass:showNotification(params)
     self:make_box(notification_panel)
     local linerect = notification_panel:rect({w = notification_panel:w() - 8,h = 2,x = 4,y = text_height_px+4,alpha = 1,color = text_color,layer = 3})
     local target_y = notification_panel:y()
-    local data = {height = notification_panel:h(),cur_time = current_time + time,anim_y = notification_panel,anim_x = text_panel,line = linerect,panel_y = target_y,positions = 1}
-    if not self.current_notifications then
-        self.current_notifications = {}
-    end
+    local data = {height = notification_panel:h(),current_time = current_time + time,main_panel = notification_panel,text_panel = text_panel,line = linerect,panel_y = target_y}
     table.insert(self.current_notifications,data)
     local start_w = linerect:w()
     local start_x = linerect:x()
@@ -95,7 +135,7 @@ function zMenuClass:showNotification(params)
             o:set_w(math.lerp(start_w,start_x,p))
             local current_y = (notification_panel:y() - data.panel_y)/20
             notification_panel:set_y(notification_panel:y()-current_y)
-            --self:check_mouse_pos(data)
+            self:checkMousePos(data)
         end)
     end)
     for i,v in pairs(self.current_notifications) do
