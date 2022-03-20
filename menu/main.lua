@@ -97,10 +97,10 @@ function zMenuClass:add_profile_picture()
 end
 function zMenuClass:init_menu()
     local mp = self.menu_master_panel
-    self.search_bar = mp:panel({layer = 5,x = 5,y = 5,w = 200,h = 30})
+    self.search_bar = mp:panel({layer = 5,x = 5,y = 5,w = 200,h = 35})
     self.profile_pic = mp:panel({layer = 5,x = 5,y = mp:h()-95,w = 200,h = 90})
     self.profile_picture = self.profile_pic:panel({layer = 5,x = 5,y = 5,h = 80,w = 80})
-    self.left_side_panel = mp:panel({layer = 5,x = 5,y = 36,w = 200,h = self.profile_pic:y()-38})
+    self.left_side_panel = mp:panel({layer = 5,x = 5,y = 41,w = 200,h = self.profile_pic:y()-43})
     self.feature_panel = mp:panel({layer = 5,x = 206,y = 5,w = mp:w()-211,h = mp:h()-10})
     self:make_box(self.profile_picture,true)
     self:make_box(mp,true,true)
@@ -117,6 +117,10 @@ function zMenuClass:init_menu()
     self.master_panel_mouse_resize_panel = mp:panel({layer = 300, alpha = 1, x = mp:w()-18,w = 18, y = mp:h()-18,h = 18})
     self.master_panel_mouse_resize_panel:gradient({blend_mode = "normal", orientation = "vertical",x = self.master_panel_mouse_resize_panel:w()-3,w=2,h=17,gradient_points = {1, self.menu_colors.lightblue,0.65, self.menu_colors.lightblue, 0, self:rgb255(0,0,0,0)}})
     self.master_panel_mouse_resize_panel:gradient({blend_mode = "normal", orientation = "horizontal",y = self.master_panel_mouse_resize_panel:h()-3,h=2,w=17,gradient_points = {1, self.menu_colors.lightblue,0.65, self.menu_colors.lightblue, 0, self:rgb255(0,0,0,0)}})
+    local search_panel_main = self.search_bar:panel({x = 5,y = 5, w = self.search_bar:w()-10, h = 25,alpha = 0.5})
+    search_panel_main:rect({layer = 50,color = self:rgb255(10,10,10)})
+    search_panel_main:rect({x = 1,y = 1,w = search_panel_main:w()-2,h = search_panel_main:h()-2, layer = 51,color = self:rgb255(60,60,60)})
+    search_panel_main:text({name = "search_bar_id",text = "Search",x = 5,y = 3,font_size = 18,layer = 105,align = "left",font =  "fonts/font_small_mf",color = self:rgb255(200,200,200)})
 end
 function zMenuClass:isMenuopen()
     return self.menu_enabled
