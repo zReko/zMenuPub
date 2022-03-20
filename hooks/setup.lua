@@ -25,4 +25,3 @@ function Setup:load_start_menu()
     zMenuUpdator:remove_all()
     orig_load_start_menu(self)
 end
-

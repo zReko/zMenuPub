@@ -23,14 +23,11 @@ function zMenuToolsClass:logFileLoad(prefix, text, suffix)
     log(text .. string.rep(" ", repeatstr))
 end
 function zMenuToolsClass:loadPackage(pack)
-    local canLoad = true
+    local canLoad = false
     if PackageManager:package_exists(pack) then
-        canLoad = false
-        self:setLoadedPackage(pack)
-        self:logFileLoad("[ZM]", pack, "already loaded package")
+        canLoad = true
     end
-
-    if PackageManager:loaded(pack) then
+    if canLoad and PackageManager:loaded(pack) then
         canLoad = false
         self:setLoadedPackage(pack)
         self:logFileLoad("[ZM]", pack, "already loaded package")
@@ -45,12 +42,11 @@ function zMenuToolsClass:setLoadedPackage(pack)
     self.loadedPacks = self.loadedPacks or {}
     self.loadedPacks[pack] = true
 end
-function zMenuToolsClass:LoadedPackages()
-    local temp = {}
-    for i, v in pairs(self.loadedPacks) do
-        table.insert(temp,i)
+function zMenuToolsClass:isPackageLoaded(pack)
+    if PackageManager:package_exists(pack) and PackageManager:loaded(pack) then
+        return true
     end
-    return temp or {}
+    return false
 end
 zMenuTools = zMenuToolsClass:new()
 zMenuTools:logFileLoad("[ZM]", "Tools.lua", "loaded")
