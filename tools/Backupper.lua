@@ -36,3 +36,4 @@ function BackUpperClass:restore_all()
     end
 end
 zMenuBackupper = BackUpperClass:new("zMenuBackupper")
+zMenuTools:logFileLoad("[ZM]", "Backupper.lua", "loaded")

@@ -5,8 +5,8 @@ local orig_load_start_menu_lobby = Setup.load_start_menu_lobby
 local orig_load_start_menu = Setup.load_start_menu
 
 function Setup:init_managers(...)
-    DB:create_entry(Idstring("texture"), Idstring("guis/textures/background_pattern"), zMenuTools:mod_path() .. "assets/background_pattern.texture")
-    DB:create_entry(Idstring("texture"), Idstring("guis/textures/menu_icons"), zMenuTools:mod_path() .. "assets/menu_icons.texture")
+    DB:create_entry(Idstring("texture"), Idstring("guis/textures/background_pattern"), zMenuTools:modPath() .. "assets/background_pattern.texture")
+    DB:create_entry(Idstring("texture"), Idstring("guis/textures/menu_icons"), zMenuTools:modPath() .. "assets/menu_icons.texture")
     orig_init_manager(self, ...)
 end
 function Setup:quit()

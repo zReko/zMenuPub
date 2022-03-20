@@ -5,10 +5,10 @@ function zMenuToolsClass:has_mod_path()
     end
     return false
 end
-function zMenuToolsClass:assign_path(path)
+function zMenuToolsClass:assignPath(path)
     self.mod_path = path
 end
-function zMenuToolsClass:mod_path()
+function zMenuToolsClass:modPath()
     return self.mod_path or ""
 end
 function zMenuToolsClass:currentTime()
@@ -17,5 +17,10 @@ end
 function zMenuToolsClass:currentTimeDelta()
     return TimerManager:main():delta_time()
 end
-
+function zMenuToolsClass:logFileLoad(prefix, text, suffix)
+    local text = prefix .. "                   " .. text
+    local repeatstr = 75 - string.len(text)
+    log(text .. string.rep(" ", repeatstr) .. suffix)
+end
 zMenuTools = zMenuToolsClass:new()
+zMenuTools:logFileLoad("[ZM]", "Tools.lua", "loaded")

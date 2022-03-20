@@ -76,3 +76,4 @@ function zMenuUpdatorClass:func_count()
     return count
 end
 zMenuUpdator = zMenuUpdatorClass:new()
+zMenuTools:logFileLoad("[ZM]", "Updator.lua", "loaded")
