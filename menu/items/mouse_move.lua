@@ -10,5 +10,10 @@ function zMenuClass:mouse_move(o,x,y)
     self.menu_mouse_x,self.menu_mouse_y = x,y
     if self.mouse_move_panel_state then
         self:updateMenuPos(x,y)
+        return
+    end
+    if self.mouse_resize_panel_state then
+        self:updateMenuSize(x,y)
+        return
     end
 end
