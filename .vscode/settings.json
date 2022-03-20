@@ -1,0 +1,13 @@
+{
+    "Lua.diagnostics.globals": [
+        "DelayedCalls",
+        "DelayedCalls",
+        "DelayedCalls",
+        "HUDLootScreenSkirmish",
+        "log",
+        "zMenuToolsClass",
+        "zMenuTools",
+        "RequiredScript",
+        "SystemFS"
+    ]
+}
