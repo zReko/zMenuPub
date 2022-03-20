@@ -1,4 +1,4 @@
-local zMenuClass = class()
+zMenuClass = class()
 
 function zMenuClass:rgb255(...)
     local items = {...}
@@ -100,9 +100,9 @@ function zMenuClass:openMenu()
 		menu.input._controller:disable()
     end
 	if not self._controller then
-        self._controller = managers.controller:create_controller("SK33T", nil, false)
-        self._controller:add_trigger("cancel", callback(self, self, "Cancel"))
-		self._controller:add_trigger("confirm", callback(self, self, "press_confirm"))
+        self._controller = managers.controller:create_controller("zMenuMouseController", nil, false)
+        self._controller:add_trigger("cancel", callback(self, self, "keyboard_cancel"))
+		self._controller:add_trigger("confirm", callback(self, self, "keyboard_confirm"))
 		if managers.menu:is_pc_controller() then
 			managers.mouse_pointer:use_mouse({
 				mouse_move = callback(self, self, "mouse_move"),
@@ -112,9 +112,6 @@ function zMenuClass:openMenu()
 		end
     end
     self._controller:enable()
-    if not self.resizing_menu then
-        self:item_hover_stuff()
-    end
     self.menu_enabled = true
     self.menu_master_panel:set_visible(true)
 end
@@ -131,7 +128,12 @@ function zMenuClass:closeMenu()
     self.menu_enabled = false
     self.menu_master_panel:set_visible(false)
 end
-
+function zMenuClass:keyboard_cancel()
+    
+end
+function zMenuClass:keyboard_confirm()
+    
+end
 zMenuTools:logFileLoad("[ZM]","main.lua","loaded item")
 local path = zMenuTools:modPath()  .. "menu/items/"
 for _, v in pairs(SystemFS:list(path)) do
