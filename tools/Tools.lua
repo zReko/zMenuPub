@@ -189,7 +189,6 @@ function zMenuToolsClass:reloadMenu()
     zMenu = nil
     self:initMenu(true)
     zMenu:openMenu()
-    zMenu:test()
 end
 zMenuTools = zMenuToolsClass:new()
 zMenuTools:logFileLoad("[ZM]", "Tools.lua", "loaded")

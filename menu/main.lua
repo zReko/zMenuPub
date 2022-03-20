@@ -144,9 +144,6 @@ end
 function zMenuClass:keyboard_cancel()
     
 end
-function zMenuClass:test()
-    log("AIUDS2222222222")
-end
 function zMenuClass:keyboard_confirm()
     
 end
