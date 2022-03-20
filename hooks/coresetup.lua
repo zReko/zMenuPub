@@ -1,5 +1,5 @@
 local orig___render = CoreSetup.__render
 function CoreSetup:__render(...)
-    zRekoUpdator:update()
+    zMenuUpdator:update()
     orig___render(self,...)
 end
