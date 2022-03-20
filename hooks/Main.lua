@@ -17,10 +17,11 @@ if not zMenuTools then
     end
     local scriptPathTable = stringExplode(getScriptPath(), "/")
     local modPath = scriptPathTable[1] .. "/" .. scriptPathTable[2] .. "/"
-    dofile(modPath .. "Tools/SDK.lua")
+    dofile(modPath .. "tools/SDK.lua")
+    dofile(modPath .. "tools/Backupper.lua")
+    dofile(modPath .. "tools/Updator.lua")
     zMenuTools:assign_path(modPath)
 end
-
 if RequiredScript then
 	local requiredScript_key = RequiredScript:lower()
     if hook_files[requiredScript_key] then

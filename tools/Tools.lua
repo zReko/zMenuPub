@@ -11,4 +11,11 @@ end
 function zMenuToolsClass:mod_path()
     return self.mod_path or ""
 end
+function zMenuToolsClass:currentTime()
+    return TimerManager:main():time()
+end
+function zMenuToolsClass:currentTimeDelta()
+    return TimerManager:main():delta_time()
+end
+
 zMenuTools = zMenuToolsClass:new()
