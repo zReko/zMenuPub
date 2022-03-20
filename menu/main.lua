@@ -28,6 +28,8 @@ function zMenuClass:init(x,y,w,h,res_x,res_y,open_on_init)
         x,y,w,h = temp.x,temp.y,temp.w,temp.h
     end
     file:close()
+    --res_y = res_y*2
+    --res_x = res_x*2
     self.wsMain = zMenuTools:createCustomResWorkspace(res_x,res_y)
     self.wsMain:connect_keyboard(Input:keyboard())
     self.wsMain:connect_mouse(Input:mouse())
@@ -66,23 +68,14 @@ function zMenuClass:init(x,y,w,h,res_x,res_y,open_on_init)
 end
 function zMenuClass:make_box(panel,ignore_background,with_grow)
     local panel_w,panel_h = panel:w(),panel:h()
-    if with_grow then
-        panel:rect({halign = "grow",valign = "grow",w = panel_w,h = panel_h,x = 0,y = 0,alpha = 1, color = self:rgb255(10,10,10)})
-        panel:rect({halign = "grow",valign = "grow",w = panel_w - 2,h = panel_h - 2,x = 1,y = 1,alpha = 1,color = self:rgb255(60,60,60)})
-        panel:rect({halign = "grow",valign = "grow",w = panel_w - 6,h = panel_h - 6,x = 3,y = 3,alpha = 1,color = self:rgb255(10,10,10)})
-        if ignore_background then
-            return
-        end
-        panel:bitmap({name = "background_texture",texture = "guis/textures/background_pattern", texture_rect = {0,0,(panel_w-8)/self.pattern_scale_mul,(panel_h-8)/self.pattern_scale_mul},x = 4,y = 4,w = panel_w - 8,h = panel_h - 8,layer = 1})
-        return
-    end
-    panel:rect({w = panel_w,h = panel_h,x = 0,y = 0,alpha = 1, color = self:rgb255(10,10,10)})
-    panel:rect({w = panel_w - 2,h = panel_h - 2,x = 1,y = 1,alpha = 1,color = self:rgb255(60,60,60)})
-    panel:rect({w = panel_w - 6,h = panel_h - 6,x = 3,y = 3,alpha = 1,color = self:rgb255(10,10,10)})
+    local grow = with_grow and "grow" or nil
+    panel:rect({halign = grow,valign = grow,w = panel_w,h = panel_h,x = 0,y = 0,alpha = 1, color = self:rgb255(10,10,10)})
+    panel:rect({halign = grow,valign = grow,w = panel_w - 2,h = panel_h - 2,x = 1,y = 1,alpha = 1,color = self:rgb255(60,60,60)})
+    panel:rect({halign = grow,valign = grow,w = panel_w - 6,h = panel_h - 6,x = 3,y = 3,alpha = 1,color = self:rgb255(10,10,10)})
     if ignore_background then
         return
     end
-    panel:bitmap({name = "background_texture",texture = "guis/textures/background_pattern", texture_rect = {0,0,(panel_w-8)/self.pattern_scale_mul,(panel_h-8)/self.pattern_scale_mul},x = 4,y = 4,w = panel_w - 8,h = panel_h - 8,layer = 1})
+    panel:bitmap({name = "background_texture",texture = "guis/textures/z_background_pattern", texture_rect = {0,0,(panel_w-8)/self.pattern_scale_mul,(panel_h-8)/self.pattern_scale_mul},x = 4,y = 4,w = panel_w - 8,h = panel_h - 8,layer = 1})
 end
 function zMenuClass:add_profile_picture()
     if not self.cached_profile_picture_data then
@@ -111,7 +104,7 @@ function zMenuClass:init_menu()
     self.profile_picture_image = self.profile_picture:bitmap({texture = "guis/textures/pd2/none_icon",layer = 20,x = 4,y =4,alpha = 1,w = 72,h=72})
     self.profile_pic:text({text = "Status:",x = 87,y = 51,font_size = 16,align = "left", font =  "fonts/font_small_mf",color = self:rgb255(255,255,255),layer = 20})
     self.profile_pic:text({text = "DEV",x = 122,y = 51,font_size = 16,align = "left",font =  "fonts/font_small_mf",color = self:rgb255(100,255,100),layer = 20})
-    self.profile_pic:text({text = tostring(Steam:username()),x = 87,y = 27, font_size = 24,align = "left",font =  "fonts/font_small_mf",color = self:rgb255(120,150,255),layer = 20})
+    self.profile_pic:text({text = tostring(Steam:username()),x = 87,y = 27, font_size = 24,align = "left",font =  "fonts/font_small_mf",color = self.menu_colors.lightblue,layer = 20})
     self.profile_pic:text({text = tostring(Steam:userid()),x = 87,y = 69, font_size = 16,align = "left",font =  "fonts/font_small_mf",color = self:rgb255(255,255,255),layer = 20})
     self:add_profile_picture()
     self.master_panel_mouse_resize_panel = mp:panel({layer = 300, alpha = 1, x = mp:w()-18,w = 18, y = mp:h()-18,h = 18})
@@ -160,6 +153,9 @@ function zMenuClass:keyboard_cancel()
 end
 function zMenuClass:keyboard_confirm()
     
+end
+function zMenuClass:update()
+    self:updateNotifications()
 end
 zMenuTools:logFileLoad("[ZM]","main.lua","loaded item")
 local path = zMenuTools:modPath()  .. "menu/items/"

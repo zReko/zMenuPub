@@ -38,12 +38,22 @@ function zMenuToolsClass:isPackageLoaded(pack)
     end
     return false
 end
+function zMenuToolsClass:CoroutineAnim(TOTAL_T, callback)
+	local t = 0
+	while t < TOTAL_T do
+		coroutine.yield()
+		t = t + self:currentTimeDelta()
+		callback(t / TOTAL_T, t)
+	end
+	callback(1, TOTAL_T)
+end
 function zMenuToolsClass:animate_UI(TOTAL_T, callback)
     local t = 0
     local const_frames = 0
     local count_frames = const_frames + 1
     while t < TOTAL_T do
-        t = t + coroutine.yield()
+        coroutine.yield()
+        t = t + self:currentTimeDelta()
         if count_frames >= const_frames then
             callback(t / TOTAL_T, t)
             count_frames = 0
@@ -179,6 +189,7 @@ function zMenuToolsClass:initMenu(open_on_start)
     local h = resolution[2] - padding*2
     dofile(self:modPath()  .. "menu/main.lua")
     zMenu = zMenuClass:new(x,y,w,h,resolution[1],resolution[2],open_on_start or false)
+    zMenuUpdator:add(function ()zMenu:update()end,"menuLoop")
 end
 function zMenuToolsClass:reloadMenu()
     if zMenu:isMenuopen()  then
