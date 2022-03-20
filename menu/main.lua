@@ -1,5 +1,4 @@
 zMenuClass = class()
-
 function zMenuClass:rgb255(...)
     local items = {...}
     local num = #items
@@ -27,6 +26,7 @@ function zMenuClass:init(x,y,w,h,res_x,res_y)
     self.scroll_data = {}
     self.item_height_data = {}
     self.pattern_scale_mul = 2
+    self.mouse_convert_mul = res_y/720
     local hollow_icons = true
     self.icons = {
         background_transparent =         {0,197,34,212},
