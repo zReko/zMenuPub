@@ -4,7 +4,7 @@ function zMenuUpdatorClass:init()
     self.time = 0
 end
 function zMenuUpdatorClass:update()
-    local current_time = zRekoSDK:currentTime()
+    local current_time = zMenuTools:currentTime()
     for i, v in pairs(self.list_of_funcs) do
         if v[2] > 0 then
             if v[3] <= current_time then
@@ -17,7 +17,7 @@ function zMenuUpdatorClass:update()
     end
 end
 function zMenuUpdatorClass:update_by_id(id)
-    local current_time = zRekoSDK:currentTime()
+    local current_time = zMenuTools:currentTime()
     local item = self.list_of_funcs[id]
     if item then
         self.list_of_funcs[id][3] = current_time + item[2]
@@ -28,7 +28,7 @@ function zMenuUpdatorClass:add(func,id,interval)
     if self.list_of_funcs[id] then
         return
     end
-    local current_time = zRekoSDK:currentTime()
+    local current_time = zMenuTools:currentTime()
     self.list_of_funcs[id] = {func,interval or 0,current_time}
 end
 function zMenuUpdatorClass:set_speed(id,speed)
