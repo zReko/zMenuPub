@@ -9,10 +9,21 @@
     "color" : "138 175 255",
     "priority" : 0,
     "hooks" : [
-        {"hook_id" : "lib/setups/setup",                                    "script_path" : "hooks/Main.lua"},
-        {"hook_id" : "lib/setups/gamesetup",                                "script_path" : "hooks/Main.lua"},
-        {"hook_id" : "core/lib/setups/coresetup",                           "script_path" : "hooks/Main.lua"},
-        {"hook_id" : "lib/states/menumainstate",                            "script_path" : "hooks/Main.lua"},
-        {"hook_id" : "lib/states/ingamewaitingforplayers",                  "script_path" : "hooks/Main.lua"},
+        {"hook_id" : "lib/setups/setup",                                    "script_path" : "hooks/main.lua"},
+        {"hook_id" : "lib/setups/gamesetup",                                "script_path" : "hooks/main.lua"},
+        {"hook_id" : "core/lib/setups/coresetup",                           "script_path" : "hooks/main.lua"},
+        {"hook_id" : "lib/states/menumainstate",                            "script_path" : "hooks/main.lua"},
+        {"hook_id" : "lib/states/ingamewaitingforplayers",                  "script_path" : "hooks/main.lua"},
+    ],
+    "keybinds": [
+        {
+            "keybind_id": "keybind_toggle_id",
+            "name": "keybind_toggle",
+            "description": "asdasdasd",
+            "script_path": "features/keybind_toggle.lua",
+            "run_in_menu": true,
+            "run_in_game": true,
+            "localized": false
+        }
     ]
 }

@@ -43,8 +43,7 @@ function zMenuToolsClass:animate_UI(TOTAL_T, callback)
     local const_frames = 0
     local count_frames = const_frames + 1
     while t < TOTAL_T do
-        coroutine.yield()
-        t = t + self:currentTimeDelta()
+        t = t + coroutine.yield()
         if count_frames >= const_frames then
             callback(t / TOTAL_T, t)
             count_frames = 0
