@@ -139,5 +139,33 @@ end
 function zMenuToolsClass:getArrayContent(item,num,tab)
     return table_recursion(item,num,num,tab)
 end
+function zMenuToolsClass:load_shared_features()
+    local path = self:modPath()  .. "features/shared/"
+    for _, v in pairs(SystemFS:list(path)) do
+        dofile(path .. v)
+        self:logFileLoad("[ZM]",v,"loaded feature")
+    end
+end
+function zMenuToolsClass:load_preplan_features()
+    local path = self:modPath()  .. "features/preplan/"
+    for _, v in pairs(SystemFS:list(path)) do
+        dofile(path .. v)
+        self:logFileLoad("[ZM]",v,"loaded feature")
+    end
+end
+function zMenuToolsClass:load_heist_features()
+    local path = self:modPath()  .. "features/heist/"
+    for _, v in pairs(SystemFS:list(path)) do
+        dofile(path .. v)
+        self:logFileLoad("[ZM]",v,"loaded feature")
+    end
+end
+function zMenuToolsClass:load_menu_features()
+    local path = self:modPath()  .. "features/menu/"
+    for _, v in pairs(SystemFS:list(path)) do
+        dofile(path .. v)
+        self:logFileLoad("[ZM]",v,"loaded feature")
+    end
+end
 zMenuTools = zMenuToolsClass:new()
 zMenuTools:logFileLoad("[ZM]", "Tools.lua", "loaded")
