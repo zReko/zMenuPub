@@ -18,9 +18,39 @@ function zMenuToolsClass:currentTimeDelta()
     return TimerManager:main():delta_time()
 end
 function zMenuToolsClass:logFileLoad(prefix, text, suffix)
-    local text = prefix .. "                   " .. text
+    local text = "      " .. prefix ..  " --- " .. suffix .. " --- " .. text
     local repeatstr = 75 - string.len(text)
-    log(text .. string.rep(" ", repeatstr) .. suffix)
+    log(text .. string.rep(" ", repeatstr))
+end
+function zMenuToolsClass:loadPackage(pack)
+    local canLoad = true
+    if PackageManager:package_exists(pack) then
+        canLoad = false
+        self:setLoadedPackage(pack)
+        zMenuTools:logFileLoad("[ZM]", pack, "already loaded package")
+    end
+
+    if PackageManager:loaded(pack) then
+        canLoad = false
+        self:setLoadedPackage(pack)
+        zMenuTools:logFileLoad("[ZM]", pack, "already loaded package")
+    end
+    if canLoad then
+        PackageManager:load(pack)
+        self:setLoadedPackage(pack)
+        zMenuTools:logFileLoad("[ZM]", pack, "loaded package")
+    end
+end
+function zMenuToolsClass:setLoadedPackage(pack)
+    self.loadedPacks = self.loadedPacks or {}
+    self.loadedPacks[pack] = true
+end
+function zMenuToolsClass:LoadedPackages()
+    local temp = {}
+    for i, v in pairs(self.loadedPacks) do
+        table.insert(temp,i)
+    end
+    return temp or {}
 end
 zMenuTools = zMenuToolsClass:new()
 zMenuTools:logFileLoad("[ZM]", "Tools.lua", "loaded")

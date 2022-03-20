@@ -10,5 +10,8 @@
         "RequiredScript",
         "SystemFS",
         "TimerManager"
+    ],
+    "Lua.diagnostics.disable": [
+        "undefined-global"
     ]
 }
