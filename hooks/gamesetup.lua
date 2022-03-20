@@ -1,4 +1,4 @@
-local backed_up_load_packaged = GameSetup.load_packages
+local orig_load_packaged = GameSetup.load_packages
 local packages = {
     "packages/sm_wish", --ZEAL UNITS
     --ENVIRONMENTS
@@ -22,7 +22,7 @@ local packages = {
     --"levels/narratives/elephant/born/world/world",
 }
 function GameSetup:load_packages()
-    backed_up_load_packaged(self)
+    orig_load_packaged(self)
     for i, v in pairs(packages) do
         zMenuTools:loadPackage(v)
     end
