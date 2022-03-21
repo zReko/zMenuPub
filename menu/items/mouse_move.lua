@@ -1,6 +1,14 @@
 function zMenuClass:isMouseInPanel(panel)
     return panel:inside(self.menu_mouse_x,self.menu_mouse_y)
 end
+function zMenuClass:isPanelInPanel(panel1,panel2)
+    if panel1:x()>panel2:x() and panel1:y() > panel2:y() then
+        if panel1:x()+panel1:w()<panel2:x()+panel2:w() and anel1:y()+panel1:h()<panel2:y()+panel2:h() then
+            return true
+        end
+    end
+    return false
+end
 function zMenuClass:convertMousePos(x,y)
     local x_new, y_new = managers.mouse_pointer:convert_fullscreen_16_9_mouse_pos(x, y)
     return math.floor(x_new*self.mouse_convert_mul),math.floor(y_new*self.mouse_convert_mul)

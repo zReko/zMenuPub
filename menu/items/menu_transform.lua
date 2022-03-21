@@ -9,13 +9,21 @@ function zMenuClass:updateMenuSize(x,y)
     local new_y = self.last_update_y and (y - self.last_update_y) or 0 
     local should_update_x = true
     local should_update_y = true
-    if (self.menu_master_panel:w() <= 300) and new_x < 0 then
-        should_update_x = false
-        new_x = 0
+    if (self.menu_master_panel:w()-math.abs(new_x) < 300) and new_x < 0 then
+        new_x = self.menu_master_panel:w()-299
+        new_x = -new_x
+        if new_x <= 0 then
+            self.last_update_x = self.last_update_x - math.abs(new_x)
+            should_update_x = false
+        end
     end
-    if self.menu_master_panel:h() <= 300 and new_y < 0 then
-        should_update_y = false
-        new_y = 0
+    if (self.menu_master_panel:h()-math.abs(new_y) < self.max_height_menu) and new_y < 0 then
+        new_y = self.menu_master_panel:h()-(self.max_height_menu-1)
+        new_y = -new_y
+        if new_y <= 0 then
+            self.last_update_y = self.last_update_y - math.abs(new_y)
+            should_update_y = false
+        end
     end
     local mul = self.pattern_scale_mul
     self.menu_master_panel:grow(new_x,new_y)

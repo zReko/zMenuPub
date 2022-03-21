@@ -77,10 +77,12 @@ function zMenuClass:checkTabClick()
     end
 end
 function zMenuClass:initTabs()
-    local parent_panel = self.left_side_panel:panel({valign = "grow",halign = "grow",x = 4,y = 4,w = self.left_side_panel:w()-8,h = self.left_side_panel:h()-8})
+    local parent_panel = self.left_side_panel:panel({valign = "grow",x = 4,y = 4,w = self.left_side_panel:w()-8,h = self.left_side_panel:h()-8})
     local tabs = self.raw_menu_layout.tab_list
     self.tab_items = {}
     local sum_of_h = 0
+    local last_id = ""
+    local last_h = 0
     for i,v in pairs(tabs) do
         local item_type = v.type
         local type_h = self.height_data[item_type]
@@ -91,5 +93,10 @@ function zMenuClass:initTabs()
             self:createTabDivider(parent_panel,sum_of_h,type_h)
             sum_of_h = sum_of_h + type_h
         end
+        if v.menu_id then
+            last_id = v.menu_id
+            last_h = type_h
+        end
     end
+    self.max_height_menu = (self.tab_items[last_id].panel:world_y() + last_h + 100) - self.menu_master_panel:y()
 end
