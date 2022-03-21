@@ -7,6 +7,10 @@ function zMenuClass:mouse_press(o,button,x,y)
             self:updateMenuSize(x,y)
             return
         end
+        if self:isMouseInPanel(self.left_side_panel) then
+            self:checkTabClick()
+            return
+        end
     elseif button == Idstring("1") then --RIGHT CLICK
         if self:isMouseInPanel(self.menu_master_panel) then
             self.mouse_move_panel_state = {x-self.menu_master_panel:world_x(),y-self.menu_master_panel:world_y()}

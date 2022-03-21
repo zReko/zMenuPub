@@ -42,3 +42,13 @@ function zMenuClass:get_rgb_from_hsv(hue,saturation,value)
 	blue = blue + diff
 	return red,green,blue
 end
+function zMenuClass:animateColors4(cur_color,target_color,p)
+    local color_current = {cur_color:color():unpack()}
+    local target_color = {target_color:color():unpack()}
+    return Color(math.lerp(color_current[1],target_color[1],p),math.lerp(color_current[2],target_color[2],p),math.lerp(color_current[3],target_color[3],p),math.lerp(color_current[3],target_color[3],p))
+end
+function zMenuClass:animateColors3(cur_color,target_color,p)
+    local color_current = {cur_color:unpack()}
+    local target_color = {target_color:unpack()}
+    return Color(math.lerp(color_current[1],target_color[1],p),math.lerp(color_current[2],target_color[2],p),math.lerp(color_current[3],target_color[3],p))
+end

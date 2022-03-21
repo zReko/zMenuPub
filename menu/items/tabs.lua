@@ -5,38 +5,73 @@ function zMenuClass:createTabDivider(parent,height,hh)
 end
 function zMenuClass:createTabButton(parent,height,item,hh)
     local item_panel = parent:panel({y = height,h = hh,layer = 50})
-    local text = item_panel:text({name = item.menu_id,text = string.upper(item.text), font_size = 16,y = 7,align = "center",font =  "fonts/font_small_mf",color = self:rgb255(255,255,255),layer = 51})
+    local text = item_panel:text({name = item.menu_id,text = string.upper(item.text), font_size = 16,y = 6,align = "center",font =  "fonts/font_small_mf",color = self:rgb255(255,255,255),layer = 51})
     self.tab_items[item.menu_id] = {panel = item_panel,menu_id = item.menu_id,button_text = text}
 end
 function zMenuClass:checkTabHover()
-    if not self:isMouseInPanel(self.left_side_panel) then
-        return
-    end
-    if self.current_tab_hover then
-        local item = self.tab_items[self.current_tab_hover]
-        if not self:isMouseInPanel(item.panel) then
+    if self.currentTabHover then
+        local item = self.tab_items[self.currentTabHover]
+        if not self:isMouseInPanel(item.panel) and item.menu_id ~= self.currentActiveTab then
             local panel = item.button_text
             panel:stop()
             panel:animate(function(o) zMenuTools:animate_UI(0.2,
                 function(p)
                     o:set_font_size(math.lerp(o:font_size(),16,p))
-                    o:set_y(math.lerp(o:y(),7,p))
+                    o:set_y(math.lerp(o:y(),6,p))
                 end)
             end)
-            self.current_tab_hover = nil
+            self:setPointerImg(self.mouse_icons.arrow)
+            self.currentTabHover = nil
         end
         return
     end
+    if not self:isMouseInPanel(self.left_side_panel) then
+        return
+    end
     for i,v in pairs(self.tab_items) do
-        if self:isMouseInPanel(v.panel) then
-            self.current_tab_hover = i
+        if self:isMouseInPanel(v.panel) and i ~= self.currentActiveTab then
+            self.currentTabHover = i
             v.button_text:stop()
             v.button_text:animate(function(o) zMenuTools:animate_UI(0.05,
                 function(p)
                     o:set_font_size(math.lerp(o:font_size(),20,p))
-                    o:set_y(math.lerp(o:y(),5,p))
+                    o:set_y(math.lerp(o:y(),4,p))
                 end)
             end)
+            self:setPointerImg(self.mouse_icons.point)
+            return
+        end
+    end
+end
+function zMenuClass:setCurrentActiveTab(tab_id,play_anim)
+    if self.currentActiveTab then
+        local item = self.tab_items[self.currentActiveTab].button_text
+        item:stop()
+        item:animate(function(o) zMenuTools:animate_UI(0.05,
+            function(p)
+                o:set_font_size(math.lerp(o:font_size(),16,p))
+                o:set_y(math.lerp(o:y(),6,p))
+                o:set_color(self:animateColors3(o:color(),Color(1,1,1),p))
+            end)
+        end)
+    end
+    local item = self.tab_items[tab_id].button_text
+    item:stop()
+    item:animate(function(o) zMenuTools:animate_UI(play_anim and 0 or 0.05,
+        function(p)
+            o:set_font_size(math.lerp(o:font_size(),22,p))
+            o:set_y(math.lerp(o:y(),3,p))
+            o:set_color(self:animateColors3(o:color(),Color(0.2,0.6,1),p))
+        end)
+    end)
+    self:setPointerImg(self.mouse_icons.pointer)
+    self.currentActiveTab = tab_id
+    self.currentTabHover = nil
+end
+function zMenuClass:checkTabClick()
+    for i,v in pairs(self.tab_items) do
+        if self:isMouseInPanel(v.panel) and i ~= self.currentActiveTab then
+            self:setCurrentActiveTab(i)
             return
         end
     end

@@ -72,6 +72,7 @@ function zMenuClass:init(x,y,w,h,res_x,res_y,open_on_init)
     self.raw_menu_layout = self:getMenuLayout()
     self:initMenuBoxes()
     self:initTabs()
+    self:setCurrentActiveTab("weapon_stats_tab",true)
 end
 function zMenuClass:make_box(panel,ignore_background,with_grow)
     local panel_w,panel_h = panel:w(),panel:h()
