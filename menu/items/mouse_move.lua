@@ -29,4 +29,5 @@ function zMenuClass:mouse_move(o,x,y)
         self:updateMenuSize(x,y)
         return
     end
+    self:checkTabHover()
 end
