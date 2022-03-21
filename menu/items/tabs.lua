@@ -18,6 +18,8 @@ function zMenuClass:checkTabHover()
                 function(p)
                     o:set_font_size(math.lerp(o:font_size(),16,p))
                     o:set_y(math.lerp(o:y(),6,p))
+                    o:set_color(self:animateColors3(o:color(),Color(1,1,1),p))
+                    o:set_kern(math.lerp(o:kern(),0.5,p))
                 end)
             end)
             self:setPointerImg(self.mouse_icons.arrow)
@@ -36,6 +38,8 @@ function zMenuClass:checkTabHover()
                 function(p)
                     o:set_font_size(math.lerp(o:font_size(),20,p))
                     o:set_y(math.lerp(o:y(),4,p))
+                    o:set_color(self:animateColors3(o:color(),Color(1,1,1),p))
+                    o:set_kern(math.lerp(o:kern(),0,p))
                 end)
             end)
             self:setPointerImg(self.mouse_icons.point)
@@ -47,23 +51,32 @@ function zMenuClass:setCurrentActiveTab(tab_id,play_anim)
     if self.currentActiveTab then
         local item = self.tab_items[self.currentActiveTab].button_text
         item:stop()
-        item:animate(function(o) zMenuTools:animate_UI(0.05,
+        item:animate(function(o) zMenuTools:animate_UI(0.5,
             function(p)
                 o:set_font_size(math.lerp(o:font_size(),16,p))
                 o:set_y(math.lerp(o:y(),6,p))
                 o:set_color(self:animateColors3(o:color(),Color(1,1,1),p))
+                o:set_kern(math.lerp(o:kern(),0.5,p))
             end)
         end)
     end
     local item = self.tab_items[tab_id].button_text
-    item:stop()
-    item:animate(function(o) zMenuTools:animate_UI(play_anim and 0 or 0.05,
-        function(p)
-            o:set_font_size(math.lerp(o:font_size(),22,p))
-            o:set_y(math.lerp(o:y(),3,p))
-            o:set_color(self:animateColors3(o:color(),Color(0.2,0.6,1),p))
+    if play_anim then
+        item:set_font_size(22)
+        item:set_y(3)
+        item:set_color(Color(0.2,0.6,1))
+        item:set_kern(2.5)
+    else
+        item:stop()
+        item:animate(function(o) zMenuTools:animate_UI(1,
+            function(p)
+                o:set_font_size(math.lerp(o:font_size(),22,p*3))
+                o:set_y(math.lerp(o:y(),3,p*3))
+                o:set_color(self:animateColors3(o:color(),Color(0.2,0.6,1),p))
+                o:set_kern(math.lerp(o:kern(),2.5,p))
+            end)
         end)
-    end)
+    end
     self:setPointerImg(self.mouse_icons.pointer)
     self.currentActiveTab = tab_id
     self.currentTabHover = nil

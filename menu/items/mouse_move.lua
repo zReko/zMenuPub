@@ -25,6 +25,9 @@ end
 function zMenuClass:mouse_move(o,x,y)
     x,y = self:convertMousePos(x,y)
     self.menu_mouse_x,self.menu_mouse_y = x,y
+    if not self:isMouseInPanel(self.menu_master_panel) then
+        self:setPointerImg(self.mouse_icons.arrow)
+    end
     if self:isMouseInPanel(self.master_panel_mouse_resize_panel) then
         self:setPointerImg(self.mouse_icons.hand)
     end

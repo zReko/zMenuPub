@@ -3,7 +3,7 @@ function zMenuClass:getMenuLayout()
         tab_list = {
             {type = "button",menu_id = "weapon_stats_tab",text = "Weapon Stats"},
             {type = "button",menu_id = "aimbot_settings_tab",text = "Aimbot Settings"},
-            {type = "button",menu_id = "local_player_tab",text = "Localpayer Setting"},
+            {type = "button",menu_id = "local_player_tab",text = "Player Setting"},
             {type = "divider"},
             {type = "button",menu_id = "visual_tab",text = "Visuals"},
             {type = "button",menu_id = "enemy_spawner",text = "Spawners"},
