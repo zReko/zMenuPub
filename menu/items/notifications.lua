@@ -5,7 +5,6 @@ function zMenuClass:checkMousePos(data)
         panel:stop()
         panel:animate(function(o) zMenuTools:animate_UI(0.2,
             function(p)
-                log(math.lerp(o:alpha(),0.1,p))
                 o:set_alpha(math.lerp(o:alpha(),0.1,p))
             end)
         end)

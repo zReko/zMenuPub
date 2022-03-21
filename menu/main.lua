@@ -54,6 +54,10 @@ function zMenuClass:init(x,y,w,h,res_x,res_y,open_on_init)
         toggle_circle = hollow_icons and {3,2,27,26} or {70,2,27,26},
         toggle_slider = hollow_icons and {5,28,65,26} or {72,28,65,26},
     }
+    self.height_data = {
+        ["divider"]         = 6,
+        ["button"]          = 28,
+    }
     self.menu_colors = {
         lightblue = self:rgb255(120,150,255)
     }
@@ -65,7 +69,9 @@ function zMenuClass:init(x,y,w,h,res_x,res_y,open_on_init)
     }
     self.mainPanel = self.wsMain:panel():panel({layer = 250000})
     self.menu_master_panel = self.mainPanel:panel({layer = 1,alpha = 1,w = w,h = h,x = x,y = y,visible = open_on_init or false})
-    self:init_menu()
+    self.raw_menu_layout = self:getMenuLayout()
+    self:initMenuBoxes()
+    self:initTabs()
 end
 function zMenuClass:make_box(panel,ignore_background,with_grow)
     local panel_w,panel_h = panel:w(),panel:h()
@@ -89,7 +95,7 @@ function zMenuClass:add_profile_picture()
     end
     self.profile_picture_image:set_image(self.cached_profile_picture_data)
 end
-function zMenuClass:init_menu()
+function zMenuClass:initMenuBoxes()
     local mp = self.menu_master_panel
     self.search_bar = mp:panel({layer = 5,x = 5,y = 5,w = 200,h = 35})
     self.profile_pic = mp:panel({layer = 5,x = 5,y = mp:h()-95,w = 200,h = 90})
