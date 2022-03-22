@@ -5,7 +5,8 @@ function zMenuClass:createTabDivider(parent,height,hh)
 end
 function zMenuClass:createTabButton(parent,height,item,hh)
     local item_panel = parent:panel({y = height,h = hh,layer = 50})
-    local text = item_panel:text({name = item.menu_id,text = string.upper(item.text), font_size = 16,y = 6,align = "center",font =  "fonts/font_small_mf",color = self:rgb255(255,255,255),layer = 51})
+    local text = item_panel:text({name = item.menu_id,text = string.upper(item.text), font_size = 16,word_wrap = true,y = 6,align = "center",font =  "fonts/font_small_mf",color = Color(0.7,0.7,0.7),layer = 51})
+    text:set_kern(-0.5)
     self.tab_items[item.menu_id] = {panel = item_panel,menu_id = item.menu_id,button_text = text}
 end
 function zMenuClass:checkTabHover()
@@ -14,12 +15,12 @@ function zMenuClass:checkTabHover()
         if not self:isMouseInPanel(item.panel) and item.menu_id ~= self.currentActiveTab then
             local panel = item.button_text
             panel:stop()
-            panel:animate(function(o) zMenuTools:animate_UI(0.2,
+            panel:animate(function(o) zMenuTools:animate_UI(1,
                 function(p)
-                    o:set_font_size(math.lerp(o:font_size(),16,p))
-                    o:set_y(math.lerp(o:y(),6,p))
-                    o:set_color(self:animateColors3(o:color(),Color(1,1,1),p))
-                    o:set_kern(math.lerp(o:kern(),0.5,p))
+                    o:set_font_size(math.lerp(o:font_size(),16,p*3))
+                    o:set_y(math.lerp(o:y(),6,p*3))
+                    o:set_color(self:animateColors3(o:color(),Color(0.7,0.7,0.7),p))
+                    o:set_kern(math.lerp(o:kern(),-0.5,p))
                 end)
             end)
             self:setPointerImg(self.mouse_icons.arrow)
@@ -33,15 +34,12 @@ function zMenuClass:checkTabHover()
     for i,v in pairs(self.tab_items) do
         if self:isMouseInPanel(v.panel) and i ~= self.currentActiveTab then
             self.currentTabHover = i
-            v.button_text:stop()
-            v.button_text:animate(function(o) zMenuTools:animate_UI(0.05,
-                function(p)
-                    o:set_font_size(math.lerp(o:font_size(),20,p))
-                    o:set_y(math.lerp(o:y(),4,p))
-                    o:set_color(self:animateColors3(o:color(),Color(1,1,1),p))
-                    o:set_kern(math.lerp(o:kern(),0,p))
-                end)
-            end)
+            local item = v.button_text
+            item:stop()
+            item:set_font_size(20)
+            item:set_y(4)
+            item:set_color(Color(1,1,1))
+            item:set_kern(1)
             self:setPointerImg(self.mouse_icons.point)
             return
         end
@@ -55,8 +53,8 @@ function zMenuClass:setCurrentActiveTab(tab_id,play_anim)
             function(p)
                 o:set_font_size(math.lerp(o:font_size(),16,p))
                 o:set_y(math.lerp(o:y(),6,p))
-                o:set_color(self:animateColors3(o:color(),Color(1,1,1),p))
-                o:set_kern(math.lerp(o:kern(),0.5,p))
+                o:set_color(self:animateColors3(o:color(),Color(0.7,0.7,0.7),p))
+                o:set_kern(math.lerp(o:kern(),-0.5,p))
             end)
         end)
     end
@@ -111,5 +109,5 @@ function zMenuClass:initTabs()
             last_h = type_h
         end
     end
-    self.max_height_menu = (self.tab_items[last_id].panel:world_y() + last_h + 100) - self.menu_master_panel:y()
+    self.max_height_menu = (self.tab_items[last_id].panel:world_y() + last_h + 102) - self.menu_master_panel:y()
 end
