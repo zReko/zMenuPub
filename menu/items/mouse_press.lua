@@ -19,6 +19,14 @@ function zMenuClass:mouse_press(o,button,x,y)
         end
     elseif button == Idstring("2") then --MIDDLE CLICK
     elseif button == Idstring("mouse wheel up") then
+        if self:isMouseInPanel(self.left_side_panel) then
+            self:doTabScroll(20)
+            return
+        end
     elseif button == Idstring("mouse wheel down") then
+        if self:isMouseInPanel(self.left_side_panel) then
+            self:doTabScroll(-20)
+            return
+        end
     end
 end

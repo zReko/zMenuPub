@@ -20,6 +20,7 @@ function zMenuClass:resizeMenu(new_x,new_y)
     self.left_side_panel:bitmap({name = "background_texture",texture = "guis/textures/z_background_pattern",texture_rect = {0,0,(self.left_side_panel:w()-8)/mul,(self.left_side_panel:h()-8)/mul},x = 4,y = 4,w = self.left_side_panel:w() - 8,h = self.left_side_panel:h() - 8,layer = 1})
     self.profile_pic:set_y(self.menu_master_panel:h()-95)
     self.master_panel_mouse_resize_panel:set_position(self.menu_master_panel:w()-18,self.menu_master_panel:h()-18)
+    self:adjustScrollWhenScaling(new_y)
     self:doShittyTextFix()
 end
 function zMenuClass:updateMenuSize(x,y)

@@ -17,8 +17,8 @@ function zMenuClass:checkTabHover()
             panel:stop()
             panel:animate(function(o) zMenuTools:animate_UI(1,
                 function(p)
-                    o:set_font_size(math.lerp(o:font_size(),16,p*3))
-                    o:set_y(math.lerp(o:y(),6,p*3))
+                    o:set_font_size(math.lerp(o:font_size(),16,p))
+                    o:set_y(math.lerp(o:y(),6,p))
                     o:set_color(self:animateColors3(o:color(),Color(0.7,0.7,0.7),p))
                     o:set_kern(math.lerp(o:kern(),-0.5,p))
                 end)
@@ -68,10 +68,10 @@ function zMenuClass:setCurrentActiveTab(tab_id,play_anim)
         item:set_kern(2.5)
     else
         item:stop()
-        item:animate(function(o) zMenuTools:animate_UI(1,
+        item:animate(function(o) zMenuTools:animate_UI(0.3,
             function(p)
-                o:set_font_size(math.lerp(o:font_size(),22,p*3))
-                o:set_y(math.lerp(o:y(),3,p*3))
+                o:set_font_size(math.lerp(o:font_size(),22,p))
+                o:set_y(math.lerp(o:y(),3,p))
                 o:set_color(self:animateColors3(o:color(),Color(0.2,0.6,1),p))
                 o:set_kern(math.lerp(o:kern(),2.5,p))
             end)
@@ -90,8 +90,40 @@ function zMenuClass:checkTabClick()
         end
     end
 end
+function zMenuClass:adjustScrollWhenScaling(new_y)
+    if self.tab_scroll_panel:y() < 0 then
+        self.tab_scroll_panel:stop()
+        self.tab_scroll_panel:move(0,new_y)
+        self.tab_scroll_target = self.tab_scroll_target + new_y
+        if self.tab_scroll_panel:y() > 0 then
+            self.tab_scroll_panel:set_y(0)
+            self.tab_scroll_target = 0
+        end
+    end
+end
+function zMenuClass:doTabScroll(amount)
+    if self.tab_scroll_panel:h() < self.tab_scroll_panel:parent():h() then
+        return
+    end
+    if self.tab_scroll_target + amount > 0 then
+        self.tab_scroll_target = 0
+        amount = 0
+    end
+    if (self.tab_scroll_target + self.tab_scroll_panel:h()) + amount < self.tab_scroll_panel:parent():h() then
+        amount = self.tab_scroll_panel:parent():h() - (self.tab_scroll_target + self.tab_scroll_panel:h())
+    end 
+    self.tab_scroll_target = self.tab_scroll_target + amount
+    self.tab_scroll_panel:stop()
+    self.tab_scroll_panel:animate(function(o) zMenuTools:animate_UI(0.1,
+        function(p)
+            o:set_y(math.lerp(o:y(),self.tab_scroll_target,p))
+            self:checkTabHover()
+        end)
+    end)
+end
 function zMenuClass:initTabs()
     local parent_panel = self.left_side_panel:panel({valign = "grow",x = 4,y = 4,w = self.left_side_panel:w()-8,h = self.left_side_panel:h()-8})
+    self.tab_scroll_panel = parent_panel:panel({h = 2000})
     local tabs = self.raw_menu_layout.tab_list
     self.tab_items = {}
     local sum_of_h = 0
@@ -101,10 +133,10 @@ function zMenuClass:initTabs()
         local item_type = v.type
         local type_h = self.height_data[item_type]
         if item_type == "button" then
-            self:createTabButton(parent_panel,sum_of_h,v,type_h)
+            self:createTabButton(self.tab_scroll_panel,sum_of_h,v,type_h)
             sum_of_h = sum_of_h + type_h
         elseif item_type == "divider" then
-            self:createTabDivider(parent_panel,sum_of_h,type_h)
+            self:createTabDivider(self.tab_scroll_panel,sum_of_h,type_h)
             sum_of_h = sum_of_h + type_h
         end
         if v.menu_id then
@@ -112,5 +144,6 @@ function zMenuClass:initTabs()
             last_h = type_h
         end
     end
-    self.max_height_menu = (self.tab_items[last_id].panel:world_y() + last_h + 102) - self.menu_master_panel:y()
+    self.tab_scroll_panel:set_h(self.tab_items[last_id].panel:y() + last_h)
+    self.tab_scroll_target = 0
 end
