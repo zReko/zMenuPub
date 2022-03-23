@@ -22,6 +22,32 @@ function zMenuClass:saveMenuTransformData()
     file:write(json.encode(data))
     file:close()
 end
+function zMenuClass:unHighlightElement()
+    if self.currentPanelHover then
+        local rect_item = self.currentPanelHover
+        rect_item:stop()
+        rect_item:animate(function(o) zMenuTools:animate_UI(2,
+            function(p)
+                o:set_alpha(math.lerp(o:alpha(),0,p))
+            end)
+            rect_item:parent():remove(rect_item)
+        end)
+        self.currentPanelHover = nil
+    end
+end
+function zMenuClass:highlightElement(mouse_check_panel,size,color)
+    size = size or {}
+    self:unHighlightElement()
+    local panel = mouse_check_panel
+    local rect_item = panel:rect({x = size.x or 0,y = size.y or 0,w = panel:w()-(size.w or 0),h = panel:h()-(size.h or 0),layer = 100,Color = color or Color(1,1,1),alpha = 0})
+    rect_item:stop()
+    rect_item:animate(function(o) zMenuTools:animate_UI(0.2,
+        function(p)
+            o:set_alpha(math.lerp(o:alpha(),0.15,p))
+        end)
+    end)
+    self.currentPanelHover = rect_item
+end
 function zMenuClass:mouse_move(o,x,y)
     x,y = self:convertMousePos(x,y)
     self.menu_mouse_x,self.menu_mouse_y = x,y

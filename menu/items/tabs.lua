@@ -1,7 +1,7 @@
 function zMenuClass:createTabDivider(parent,height,hh)
     local item_panel = parent:panel({y = height,h = hh,layer = 50})
-    item_panel:rect({x = item_panel:x() + 5,w = item_panel:w() - 10,h = 4,alpha = 1,layer = 50,color = self:rgb255(10,10,10)})
-    item_panel:rect({x = item_panel:x() + 6,y = 1,w = item_panel:w() - 12,h = 2,alpha = 1,layer = 50,color = self:rgb255(60,60,60)})
+    item_panel:rect({x = item_panel:x() + 5,w = item_panel:w() - 10,h = hh,alpha = 1,layer = 50,color = self:rgb255(10,10,10)})
+    item_panel:rect({x = item_panel:x() + 6,y = 1,w = item_panel:w() - 12,h = hh-2,alpha = 1,layer = 50,color = self:rgb255(60,60,60)})
 end
 function zMenuClass:createTabButton(parent,height,item,hh)
     local item_panel = parent:panel({y = height,h = hh,layer = 50})
@@ -23,6 +23,7 @@ function zMenuClass:checkTabHover()
                     o:set_kern(math.lerp(o:kern(),-0.5,p))
                 end)
             end)
+            self:unHighlightElement()
             self:setPointerImg(self.mouse_icons.arrow)
             self.currentTabHover = nil
         end
@@ -41,6 +42,7 @@ function zMenuClass:checkTabHover()
             item:set_color(Color(1,1,1))
             item:set_kern(1)
             self:setPointerImg(self.mouse_icons.point)
+            self:highlightElement(v.panel)
             return
         end
     end
@@ -74,6 +76,7 @@ function zMenuClass:setCurrentActiveTab(tab_id,play_anim)
                 o:set_kern(math.lerp(o:kern(),2.5,p))
             end)
         end)
+        self:unHighlightElement()
     end
     self:setPointerImg(self.mouse_icons.pointer)
     self.currentActiveTab = tab_id

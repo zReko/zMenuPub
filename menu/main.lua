@@ -55,7 +55,7 @@ function zMenuClass:init(x,y,w,h,res_x,res_y,open_on_init)
         toggle_slider = hollow_icons and {5,28,65,26} or {72,28,65,26},
     }
     self.height_data = {
-        ["divider"]         = 6,
+        ["divider"]         = 4,
         ["button"]          = 28,
     }
     self.menu_colors = {
