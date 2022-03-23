@@ -91,30 +91,31 @@ function zMenuClass:checkTabClick()
     end
 end
 function zMenuClass:adjustScrollWhenScaling(new_y)
-    if self.tab_scroll_panel:y() < 0 then
-        self.tab_scroll_panel:stop()
-        self.tab_scroll_panel:move(0,new_y)
+    local panel = self.tab_scroll_panel
+    if self.tab_scroll_target < 0 and self.tab_scroll_target + panel:h() < panel:parent():h() then
+        panel:move(0,new_y)
         self.tab_scroll_target = self.tab_scroll_target + new_y
-        if self.tab_scroll_panel:y() > 0 then
-            self.tab_scroll_panel:set_y(0)
+        if self.tab_scroll_target > 0 then
+            panel:set_y(0)
             self.tab_scroll_target = 0
         end
     end
 end
 function zMenuClass:doTabScroll(amount)
-    if self.tab_scroll_panel:h() < self.tab_scroll_panel:parent():h() then
+    local panel = self.tab_scroll_panel
+    if panel:h() < panel:parent():h() then
         return
     end
     if self.tab_scroll_target + amount > 0 then
         self.tab_scroll_target = 0
         amount = 0
     end
-    if (self.tab_scroll_target + self.tab_scroll_panel:h()) + amount < self.tab_scroll_panel:parent():h() then
-        amount = self.tab_scroll_panel:parent():h() - (self.tab_scroll_target + self.tab_scroll_panel:h())
+    if (self.tab_scroll_target + panel:h()) + amount < panel:parent():h() then
+        amount = panel:parent():h() - (self.tab_scroll_target + panel:h())
     end 
     self.tab_scroll_target = self.tab_scroll_target + amount
-    self.tab_scroll_panel:stop()
-    self.tab_scroll_panel:animate(function(o) zMenuTools:animate_UI(0.1,
+    panel:stop()
+    panel:animate(function(o) zMenuTools:animate_UI(0.1,
         function(p)
             o:set_y(math.lerp(o:y(),self.tab_scroll_target,p))
             self:checkTabHover()
