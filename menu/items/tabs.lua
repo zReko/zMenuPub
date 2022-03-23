@@ -101,16 +101,40 @@ function zMenuClass:adjustScrollWhenScaling(new_y)
         end
     end
 end
+function zMenuClass:doOverScroll(panel,amount)
+    local original_y = self.tab_scroll_target
+    panel:stop()
+    panel:animate(function(o) zMenuTools:animate_UI(0.1,
+        function(p)
+            o:set_y(math.lerp(o:y(),original_y+amount,p))
+            self:checkTabHover()
+        end)
+        panel:animate(function(o) zMenuTools:animate_UI(0.1,
+            function(p)
+                o:set_y(math.lerp(o:y(),original_y,p))
+                self:checkTabHover()
+            end)
+        end)
+    end)
+end
 function zMenuClass:doTabScroll(amount)
     local panel = self.tab_scroll_panel
     if panel:h() < panel:parent():h() then
         return
     end
     if self.tab_scroll_target + amount > 0 then
+        if self.tab_scroll_target == 0 then
+            self:doOverScroll(panel,amount)
+            return
+        end
         self.tab_scroll_target = 0
         amount = 0
     end
     if (self.tab_scroll_target + panel:h()) + amount < panel:parent():h() then
+        if self.tab_scroll_target + panel:h() == panel:parent():h() then
+            self:doOverScroll(panel,amount)
+            return
+        end
         amount = panel:parent():h() - (self.tab_scroll_target + panel:h())
     end 
     self.tab_scroll_target = self.tab_scroll_target + amount
