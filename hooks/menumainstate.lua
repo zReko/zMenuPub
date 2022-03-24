@@ -1,5 +1,6 @@
-local origi_at_enter = MenuMainState.at_enter
+local orig_at_enter = MenuMainState.at_enter
+--enter main menu
 function MenuMainState:at_enter(...)
     zMenuTools:initMenu()
-    origi_at_enter(self,...)
+    orig_at_enter(self,...)
 end

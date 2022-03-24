@@ -4,6 +4,9 @@ local hook_files = {
     ["core/lib/setups/coresetup"] =                                 {"coresetup.lua"},
     ["lib/states/menumainstate"] =                                  {"menumainstate.lua"},
     ["lib/states/ingamewaitingforplayers"] =                        {"ingamewaitingforplayers.lua"},
+    ["lib/managers/menumanager"] =                                  {"menumanager.lua"},
+    ["lib/units/beings/player/states/playerstandard"] =             {"playerstandard.lua"},
+    ["lib/units/cameras/fpcameraplayerbase"] =                      {"fpcameraplayerbase.lua"},
 }
 if not zMenuTools then
     local function getScriptPath()

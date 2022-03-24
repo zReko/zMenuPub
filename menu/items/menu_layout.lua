@@ -21,6 +21,12 @@ function zMenuClass:getMenuLayout()
         },
         main_features = {
             ["main_menu_tab"] = {
+                {
+
+                },
+                {
+                    
+                }
             },
             ["player_menu"] = {
             },

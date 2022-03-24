@@ -8,6 +8,123 @@ end
 function zMenuToolsClass:assignPath(path)
     self.mod_path = path
 end
+function zMenuToolsClass:ChatHiddenMessage(prefix, message, color)
+    managers.chat:_receive_message(1, prefix, message, color or Color(0.031, 0.090, 1))
+end
+function zMenuToolsClass:isPlaying()
+    if not BaseNetworkHandler then
+        return false
+    end
+    return BaseNetworkHandler._gamestate_filter.any_ingame_playing[game_state_machine:last_queued_state_name()]
+end
+function zMenuToolsClass:isInTitlescreen()
+    if not game_state_machine then
+        return false
+    end
+    return string.find(game_state_machine:current_state_name(), "titlescreen")
+end
+function zMenuToolsClass:isLoading()
+    if not BaseNetworkHandler then
+        return false
+    end
+    return BaseNetworkHandler._gamestate_filter.waiting_for_players[game_state_machine:last_queued_state_name()]
+end
+function zMenuToolsClass:isInGame()
+    if not game_state_machine then
+        return false
+    end
+    return string.find(game_state_machine:current_state_name(), "game")
+end
+function zMenuToolsClass:isChatOpen()
+    if managers.menu_component and managers.menu_component._contract_broker_gui and managers.menu_component._contract_broker_gui._search_focus == true then
+        return true
+    end
+    if managers.hud and managers.hud._chat_focus == true then
+        return true
+    end
+    if managers.menu_component and managers.menu_component._game_chat_gui and managers.menu_component._game_chat_gui:input_focus() == true then
+        return true
+    end
+    return false
+end
+function zMenuToolsClass:isInHeist()
+    if not self:bIsLoading() and self:bIsInGame() then
+        return true
+    end
+    return false
+end
+function zMenuToolsClass:isInLoadout()
+    if self:bIsLoading() and self:bIsInGame() then
+        return true
+    end
+    return false
+end
+function zMenuToolsClass:isInMenu()
+    if not self:bIsLoading() and not self:bIsInGame() then
+        return true
+    end
+    return false
+end
+function zMenuToolsClass:allEnemies()
+    return managers.enemy:all_enemies()
+end
+function zMenuToolsClass:allCivilians()
+    return managers.enemy:all_civilians()
+end
+function zMenuToolsClass:isEneOrCiv(unit)
+    if managers.enemy:is_civilian(unit) or managers.enemy:is_enemy(unit) then
+        return true
+    end
+    return false
+end
+function zMenuToolsClass:isHost()
+    if not Network then
+        return false
+    end
+    return not Network:is_client()
+end
+function zMenuToolsClass:inChat()
+    if managers.hud and managers.hud._chat_focus then
+        return true
+    end
+    return false
+end
+function zMenuToolsClass:isOnLadder()
+    if self:localPlayer() then
+        return self:localPlayer():movement():current_state():on_ladder() or false
+    end
+    return false
+end
+function zMenuToolsClass:isSteelsight()
+    if self:localPlayer() then
+        return self:localPlayer():movement():current_state():in_steelsight() or false
+    end
+    return false
+end
+function zMenuToolsClass:isInAir()
+    if self:localPlayer() then
+        return self:localPlayer():movement():current_state():in_air() or false
+    end
+    return false
+end
+function zMenuToolsClass:localPlayer()
+    if managers.player and managers.player:local_player() then
+        return managers.player:local_player()
+    end
+    return nil
+end
+function zMenuToolsClass:pLocalPlayerPos()
+    if self:localPlayer() then
+        return self:localPlayer():movement():m_pos()
+    end
+    return nil
+end
+function zMenuToolsClass:pLocalPlayerRot()
+    if self:localPlayer() then
+        return self:localPlayer():movement():m_head_rot()
+    end
+    return nil
+end
 function zMenuToolsClass:modPath()
     return self.mod_path or ""
 end

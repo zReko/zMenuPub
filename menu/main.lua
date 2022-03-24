@@ -157,7 +157,9 @@ function zMenuClass:closeMenu()
     self.menu_master_panel:set_visible(false)
 end
 function zMenuClass:keyboard_cancel()
-    
+    if self:isMenuopen() then
+        self:closeMenu()
+    end
 end
 function zMenuClass:keyboard_confirm()
     

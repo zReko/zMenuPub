@@ -4,6 +4,7 @@ function zMenuClass:mouse_press(o,button,x,y)
     if button == Idstring("0")  then --LEFT CLICK
         if self:isMouseInPanel(self.master_panel_mouse_resize_panel) then
             self.mouse_resize_panel_state = {x-self.master_panel_mouse_resize_panel:world_x(),y-self.master_panel_mouse_resize_panel:world_y()}
+            self.mouse_move_panel_state = nil
             self:updateMenuSize(x,y)
             return
         end
@@ -14,6 +15,7 @@ function zMenuClass:mouse_press(o,button,x,y)
     elseif button == Idstring("1") then --RIGHT CLICK
         if self:isMouseInPanel(self.menu_master_panel) then
             self.mouse_move_panel_state = {x-self.menu_master_panel:world_x(),y-self.menu_master_panel:world_y()}
+            self.mouse_resize_panel_state = nil
             self:updateMenuPos(x,y)
             return
         end
