@@ -15,6 +15,13 @@ function zMenuClass:resizeMenu(new_x,new_y)
     self.feature_panel:grow(new_x,new_y)
     self.feature_panel:remove(self.feature_panel:child("background_texture"))
     self.feature_panel:bitmap({name = "background_texture",texture = "guis/textures/z_background_pattern",texture_rect = {0,0,(self.feature_panel:w()-8)/mul,(self.feature_panel:h()-8)/mul},x = 4,y = 4,w = self.feature_panel:w() - 8,h = self.feature_panel:h() - 8,layer = 1})
+    local width = self.feature_panel_main:w()/self.num_of_cols
+    for i, v in pairs(self.active_feature_panels) do
+        local index = i-1
+        v:set_x(index*width)
+        v:set_w(width)
+        v:set_h(self.feature_panel_main:h())
+    end
     self.left_side_panel:grow(0,new_y)
     self.left_side_panel:remove(self.left_side_panel:child("background_texture"))
     self.left_side_panel:bitmap({name = "background_texture",texture = "guis/textures/z_background_pattern",texture_rect = {0,0,(self.left_side_panel:w()-8)/mul,(self.left_side_panel:h()-8)/mul},x = 4,y = 4,w = self.left_side_panel:w() - 8,h = self.left_side_panel:h() - 8,layer = 1})

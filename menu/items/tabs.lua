@@ -81,6 +81,7 @@ function zMenuClass:setCurrentActiveTab(tab_id,play_anim)
     self:setPointerImg(self.mouse_icons.pointer)
     self.currentActiveTab = tab_id
     self.currentTabHover = nil
+    self:buildFeaturePanel()
 end
 function zMenuClass:checkTabClick()
     for i,v in pairs(self.tab_items) do
