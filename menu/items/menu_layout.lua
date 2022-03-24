@@ -63,6 +63,7 @@ function zMenuClass:getMenuLayout()
             ["visual_tab"] = {
             },
             ["keybind_tab"] = {
+                {},{},{},{},{},{},{},{},{},{},
             },
             ["config_tab"] = {
             }

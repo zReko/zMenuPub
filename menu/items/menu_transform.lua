@@ -13,15 +13,14 @@ function zMenuClass:resizeMenu(new_x,new_y)
     local mul = self.pattern_scale_mul
     self.menu_master_panel:grow(new_x,new_y)
     self.feature_panel:grow(new_x,new_y)
-    self.feature_panel:remove(self.feature_panel:child("background_texture"))
-    self.feature_panel:bitmap({name = "background_texture",texture = "guis/textures/z_background_pattern",texture_rect = {0,0,(self.feature_panel:w()-8)/mul,(self.feature_panel:h()-8)/mul},x = 4,y = 4,w = self.feature_panel:w() - 8,h = self.feature_panel:h() - 8,layer = 1})
+    --self.feature_panel:remove(self.feature_panel:child("background_texture"))
+    self.feature_panel:child("background_texture"):set_texture_rect(0,0,(self.feature_panel:w()-8)/mul,(self.feature_panel:h()-8)/mul)
+    --self.feature_panel:bitmap({name = "background_texture",texture = "guis/textures/z_background_pattern",texture_rect = {0,0,(self.feature_panel:w()-8)/mul,(self.feature_panel:h()-8)/mul},x = 4,y = 4,w = self.feature_panel:w() - 8,h = self.feature_panel:h() - 8,layer = 1})
     local pan_width = (self.feature_panel_main:w()-(5*(self.num_of_cols+1))) / self.num_of_cols
-
-
     for i, v in pairs(self.active_feature_panels) do
         v:set_x((5*i)+(pan_width*(i-1)))
         v:set_w(pan_width)
-        v:set_h(self.feature_panel_main:h())
+        v:set_h(self.feature_panel_main:h()-10)
     end
     self.left_side_panel:grow(0,new_y)
     self.left_side_panel:remove(self.left_side_panel:child("background_texture"))
