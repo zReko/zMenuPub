@@ -25,6 +25,9 @@ function zMenuClass:getMenuLayout()
 
                 },
                 {
+
+                },
+                {
                     
                 }
             },
@@ -45,8 +48,17 @@ function zMenuClass:getMenuLayout()
             ["enemy_spawner"] = {
             },
             ["MENU_STUFF_tab"] = {
+                {
+
+                } 
             },
             ["voicelines_tab"] = {
+                {
+
+                },
+                {
+
+                }
             },
             ["visual_tab"] = {
             },
