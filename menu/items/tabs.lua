@@ -9,6 +9,14 @@ function zMenuClass:createTabButton(parent,height,item,hh)
     text:set_kern(-0.5)
     self.tab_items[item.menu_id] = {panel = item_panel,menu_id = item.menu_id,button_text = text}
 end
+function zMenuClass:animSelect(item)
+    local t = 0
+    item:animate(function(o) zMenuTools:animateInf_UI(function(p)
+            t = t + zMenuTools:currentTimeDelta()
+            o:set_kern(zMenuTools:easeInOutSine(t,1,2,0.016))
+        end)
+    end)
+end
 function zMenuClass:checkTabHover()
     if self.currentTabHover then
         local item = self.tab_items[self.currentTabHover]
@@ -65,18 +73,18 @@ function zMenuClass:setCurrentActiveTab(tab_id,play_anim)
         item:set_font_size(22)
         item:set_y(3)
         item:set_color(Color(0.2,0.6,1))
-        item:set_kern(2.5)
+        item:set_kern(1)
+        self:animSelect(item)
     else
         item:stop()
+        self:animSelect(item)
         item:animate(function(o) zMenuTools:animate_UI(0.3,
             function(p)
                 o:set_font_size(math.lerp(o:font_size(),22,p))
                 o:set_y(math.lerp(o:y(),3,p))
                 o:set_color(self:animateColors3(o:color(),Color(0.2,0.6,1),p))
-                o:set_kern(math.lerp(o:kern(),2.5,p))
             end)
         end)
-        self:unHighlightElement()
     end
     self:setPointerImg(self.mouse_icons.pointer)
     self.currentActiveTab = tab_id

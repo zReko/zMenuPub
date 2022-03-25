@@ -318,5 +318,8 @@ function zMenuToolsClass:reloadMenu()
     self:initMenu(true)
     zMenu:openMenu()
 end
+function zMenuToolsClass:easeInOutSine(time, start, final, delta)
+    return -final/2 * (math.cos(math.pi*time/delta) - 1) + start;
+end
 zMenuTools = zMenuToolsClass:new()
 zMenuTools:logFileLoad("[ZM]", "Tools.lua", "loaded")
