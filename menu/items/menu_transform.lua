@@ -9,22 +9,21 @@ function zMenuClass:doShittyTextFix()
     self.menu_master_panel:move(-1,0)
     self.menu_master_panel:move(1,0)
 end
-function zMenuClass:resizeMenu(new_x,new_y)
+function zMenuClass:resizeBitmapBox(bitmap,panel)
     local mul = self.pattern_scale_mul
+    bitmap:set_texture_rect(0,0,(panel:w()-8)/mul,(panel:h()-8)/mul)
+end
+function zMenuClass:resizeMenu(new_x,new_y)
     self.menu_master_panel:grow(new_x,new_y)
     self.feature_panel:grow(new_x,new_y)
-    --self.feature_panel:remove(self.feature_panel:child("background_texture"))
-    self.feature_panel:child("background_texture"):set_texture_rect(0,0,(self.feature_panel:w()-8)/mul,(self.feature_panel:h()-8)/mul)
-    --self.feature_panel:bitmap({name = "background_texture",texture = "guis/textures/z_background_pattern",texture_rect = {0,0,(self.feature_panel:w()-8)/mul,(self.feature_panel:h()-8)/mul},x = 4,y = 4,w = self.feature_panel:w() - 8,h = self.feature_panel:h() - 8,layer = 1})
-    local pan_width = (self.feature_panel_main:w()-(5*(self.num_of_cols+1))) / self.num_of_cols
+    self:resizeBitmapBox(self.feature_panel:child("background_texture"),self.feature_panel)
+    local pan_width = (self.feature_panel_main:w()-(5*(self.num_of_cols-1))) / self.num_of_cols
     for i, v in pairs(self.active_feature_panels) do
-        v:set_x((5*i)+(pan_width*(i-1)))
+        v:set_x((5*(i-1))+(pan_width*(i-1)))
         v:set_w(pan_width)
-        v:set_h(self.feature_panel_main:h()-10)
     end
     self.left_side_panel:grow(0,new_y)
-    self.left_side_panel:remove(self.left_side_panel:child("background_texture"))
-    self.left_side_panel:bitmap({name = "background_texture",texture = "guis/textures/z_background_pattern",texture_rect = {0,0,(self.left_side_panel:w()-8)/mul,(self.left_side_panel:h()-8)/mul},x = 4,y = 4,w = self.left_side_panel:w() - 8,h = self.left_side_panel:h() - 8,layer = 1})
+    self:resizeBitmapBox(self.left_side_panel:child("background_texture"),self.left_side_panel)
     self.profile_pic:set_y(self.menu_master_panel:h()-95)
     self.master_panel_mouse_resize_panel:set_position(self.menu_master_panel:w()-18,self.menu_master_panel:h()-18)
     self:adjustScrollWhenScaling(new_y)

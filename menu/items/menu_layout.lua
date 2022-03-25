@@ -2,6 +2,12 @@ function zMenuClass:getMenuLayout()
     return {
         tab_list = {
             {type = "button",menu_id = "weapon_stats_tab",text = "Weapon Stats"},
+            {type = "divider"},
+            {type = "button",menu_id = "MENU_STUFF_tab",text = "--1 Column--"},
+            {type = "button",menu_id = "voicelines_tab",text = "--2 Columns--"},
+            {type = "button",menu_id = "main_menu_tab",text = "--3 Columns--"},
+            {type = "button",menu_id = "keybind_tab",text = "--Many Columns--"},
+            {type = "divider"},
             {type = "button",menu_id = "aimbot_settings_tab",text = "Aimbot Settings"},
             {type = "button",menu_id = "local_player_tab",text = "Player Setting"},
             {type = "divider"},
@@ -12,24 +18,12 @@ function zMenuClass:getMenuLayout()
             {type = "button",menu_id = "enemy_opti",text = "Miscellaneous"},
             {type = "button",menu_id = "player_menu",text = "Player Menu"},
             {type = "divider"},
-            {type = "button",menu_id = "main_menu_tab",text = "Menu Features"},
-            {type = "button",menu_id = "voicelines_tab",text = "Voice Lines"},
             {type = "divider"},
-            {type = "button",menu_id = "MENU_STUFF_tab",text = "Menu Settings"},
-            {type = "button",menu_id = "keybind_tab",text = "Keybinds"},
             {type = "button",menu_id = "config_tab",text = "Config"},
         },
         main_features = {
             ["main_menu_tab"] = {
-                {
-
-                },
-                {
-
-                },
-                {
-                    
-                }
+                {},{},{}
             },
             ["player_menu"] = {
             },
@@ -48,22 +42,15 @@ function zMenuClass:getMenuLayout()
             ["enemy_spawner"] = {
             },
             ["MENU_STUFF_tab"] = {
-                {
-
-                } 
+                {}
             },
             ["voicelines_tab"] = {
-                {
-
-                },
-                {
-
-                }
+                {},{}
             },
             ["visual_tab"] = {
             },
             ["keybind_tab"] = {
-                {},{},{},{},{},{},{},{},{},{},
+                {},{},{},{},{},{},{},{},{},{}
             },
             ["config_tab"] = {
             }
