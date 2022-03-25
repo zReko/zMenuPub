@@ -157,12 +157,15 @@ function zMenuClass:initTabs()
     local last_h = 0
     for i,v in pairs(tabs) do
         local item_type = v.type
-        local type_h = self.height_data[item_type]
+        local type_h = self.height_data[item_type] or 0
         if item_type == "button" then
             self:createTabButton(self.tab_scroll_panel,sum_of_h,v,type_h)
             sum_of_h = sum_of_h + type_h
         elseif item_type == "divider" then
             self:createTabDivider(self.tab_scroll_panel,sum_of_h,type_h)
+            sum_of_h = sum_of_h + type_h
+        elseif item_type == "empty_space" then
+            type_h = v.height
             sum_of_h = sum_of_h + type_h
         end
         if v.menu_id then
