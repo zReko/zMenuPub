@@ -42,9 +42,9 @@ function zMenuClass:highlightElement(mouse_check_panel,size,color)
     if not self.currentPanelHover then
         local rect_item = mouse_check_panel:rect({x = size.x or 0,y = size.y or 0,w = mouse_check_panel:w()-(size.w or 0),h = mouse_check_panel:h()-(size.h or 0),layer = 100,Color = color or Color(1,1,1),alpha = 0})
         rect_item:stop()
-        rect_item:animate(function(o) zMenuTools:animate_UI(0.2,
+        rect_item:animate(function(o) zMenuTools:animate_UI(0.1,
             function(p)
-                o:set_alpha(math.lerp(o:alpha(),0.15,p))
+                o:set_alpha(math.lerp(o:alpha(),0.2,p))
             end)
         end)
         self.currentPanelHover = rect_item

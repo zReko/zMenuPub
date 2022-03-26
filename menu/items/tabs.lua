@@ -5,14 +5,15 @@ function zMenuClass:createTabDivider(parent,height,hh)
 end
 function zMenuClass:createTabButton(parent,height,item,hh)
     local item_panel = parent:panel({y = height,h = hh,layer = 50})
-    local text = item_panel:text({name = item.menu_id,text = string.upper(item.text), font_size = 16,word_wrap = true,y = 6,align = "center",font =  "fonts/font_small_mf",color = Color(0.7,0.7,0.7),layer = 51})
+    local text = item_panel:text({x = 1,name = item.menu_id,text = string.upper(item.text), font_size = 16,word_wrap = true,y = 6,align = "center",font =  "fonts/font_small_mf",color = Color(0.7,0.7,0.7),layer = 51})
     text:set_kern(-0.5)
     self.tab_items[item.menu_id] = {panel = item_panel,menu_id = item.menu_id,button_text = text}
 end
-function zMenuClass:animSelect(item)
+function zMenuClass:animSelectedTabText(item)
     local t = 0
+    self:unHighlightElement()
     item:animate(function(o) zMenuTools:animateInf_UI(function(p)
-            t = t + zMenuTools:currentTimeDelta()
+            t = t + (1*zMenuTools:currentTimeDelta())
             o:set_kern(zMenuTools:easeInOutSine(t,1,2,0.016))
         end)
     end)
@@ -23,7 +24,7 @@ function zMenuClass:checkTabHover()
         if not self:isMouseInPanel(item.panel) and item.menu_id ~= self.currentActiveTab then
             local panel = item.button_text
             panel:stop()
-            panel:animate(function(o) zMenuTools:animate_UI(1,
+            panel:animate(function(o) zMenuTools:animate_UI(2,
                 function(p)
                     o:set_font_size(math.lerp(o:font_size(),16,p))
                     o:set_y(math.lerp(o:y(),6,p))
@@ -74,10 +75,10 @@ function zMenuClass:setCurrentActiveTab(tab_id,play_anim)
         item:set_y(3)
         item:set_color(Color(0.2,0.6,1))
         item:set_kern(1)
-        self:animSelect(item)
+        self:animSelectedTabText(item)
     else
         item:stop()
-        self:animSelect(item)
+        self:animSelectedTabText(item)
         item:animate(function(o) zMenuTools:animate_UI(0.3,
             function(p)
                 o:set_font_size(math.lerp(o:font_size(),22,p))
