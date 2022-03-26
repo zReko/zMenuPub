@@ -161,7 +161,6 @@ function zMenuClass:openMenu()
             self:doShittyTextFix()
         end)
     end)
-    
 end
 function zMenuClass:closeMenu()
     if self.mouse_resize_panel_state or self.mouse_move_panel_state then
@@ -188,7 +187,6 @@ function zMenuClass:closeMenu()
         end)
         o:set_visible(false)
     end)
-    
 end
 function zMenuClass:keyboard_cancel()
     if self:isMenuopen() then

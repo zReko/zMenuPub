@@ -286,10 +286,12 @@ function zMenuToolsClass:loadMenuFeatures()
     end
 end
 function zMenuToolsClass:initMenu(open_on_start)
-    --local resMAIN = {1600,900}
-    local resolution = {1920,1080}
-    --local resMAIN = {2560,1440}
-    --local resMAIN = {3840,2160}
+    --local resolution = {1600,900}
+    --local resolution = {1920,1080}
+    --local resolution = {2560,1440}
+    --local resolution = {3840,2160}
+    local vec = SystemInfo:desktop_resolution()
+    local resolution = {vec.x,vec.y}
     local padding = 300
     local x = padding
     local y = padding
