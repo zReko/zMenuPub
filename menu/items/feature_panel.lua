@@ -23,11 +23,11 @@ function zMenuClass:buildFeaturePanel()
     local px,py,pw,ph = self.feature_panel_main:shape()
     --self:debug_panel_outline(self.feature_panel_main)
     for i, v in pairs(data) do
-        local column_panel = self.feature_panel_main:panel({y = 0,halign = "grow",x = (5*(i-1))+(pan_width*(i-1)), w = pan_width})
+        local column_panel = self.feature_panel_main:panel({y = 0,halign = "grow",x = (5*(i-1))+(pan_width*(i-1)), w = pan_width,alpha = 0})
         local total_h = 0
         for ii = 1, 20, 1 do
             local ass = column_panel:panel({halign = "grow",y=((ii-1)*25),h = 25})
-            self:make_box(ass,true,true)
+            self:make_box(ass,nil,true)
             ass:text({halign = "grow",x = 5,text = "test",y = 3, font_size = 16,align = "left",font = "fonts/font_small_mf",color = Color(0.3,0.3,0.3),layer = 51})
             ass:text({halign = "grow",text = "123",y = 3, font_size = 16,align = "center",font = "fonts/font_small_mf",color = Color(0.7,0.7,0.7),layer = 51})
             ass:text({halign = "grow",x = -5,text = "test",y = 3, font_size = 16,align = "right",font = "fonts/font_small_mf",color = Color(1,1,1),layer = 51})

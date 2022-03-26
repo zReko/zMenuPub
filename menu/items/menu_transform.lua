@@ -9,21 +9,28 @@ function zMenuClass:doShittyTextFix()
     self.menu_master_panel:move(-1,0)
     self.menu_master_panel:move(1,0)
 end
-function zMenuClass:resizeBitmapBox(bitmap,panel)
+function zMenuClass:resizeBitmapBox(bitmap)
     local mul = self.pattern_scale_mul
-    bitmap:set_texture_rect(0,0,(panel:w()-8)/mul,(panel:h()-8)/mul)
+    local parent = bitmap:parent()
+    bitmap:set_texture_rect(0,0,(parent:w()-8)/mul,(parent:h()-8)/mul)
 end
+
 function zMenuClass:resizeMenu(new_x,new_y)
     self.menu_master_panel:grow(new_x,new_y)
     self.feature_panel:grow(new_x,new_y)
-    self:resizeBitmapBox(self.feature_panel:child("background_texture"),self.feature_panel)
     local pan_width = (self.feature_panel_main:w()-(5*(self.num_of_cols-1))) / self.num_of_cols
     for i, v in pairs(self.active_feature_panels) do
         v:set_x((5*(i-1))+(pan_width*(i-1)))
         v:set_w(pan_width)
     end
     self.left_side_panel:grow(0,new_y)
-    self:resizeBitmapBox(self.left_side_panel:child("background_texture"),self.left_side_panel)
+    for i, v in pairs(self.grow_bitmap_list) do
+        if tostring(v) == "[Bitmap NULL]" then
+            self.grow_bitmap_list[i] = nil
+        else
+            self:resizeBitmapBox(v)
+        end
+    end
     self.profile_pic:set_y(self.menu_master_panel:h()-95)
     self.master_panel_mouse_resize_panel:set_position(self.menu_master_panel:w()-18,self.menu_master_panel:h()-18)
     self:adjustScrollWhenScaling(new_y)

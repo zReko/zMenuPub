@@ -10,7 +10,7 @@ function zMenuClass:createTabButton(parent,height,item,hh)
     self.tab_items[item.menu_id] = {panel = item_panel,menu_id = item.menu_id,button_text = text}
 end
 function zMenuClass:animSelectedTabText(item)
-    local t = 0
+    local t = 0.5
     self:unHighlightElement()
     item:animate(function(o) zMenuTools:animateInf_UI(function(p)
             t = t + (1*zMenuTools:currentTimeDelta())

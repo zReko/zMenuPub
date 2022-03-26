@@ -41,6 +41,7 @@ function zMenuClass:init(x,y,w,h,res_x,res_y,open_on_init)
     self.pattern_scale_mul = 2
     self.mouse_convert_mul = res_y/720
     local hollow_icons = true
+    self.grow_bitmap_list = {}
     self.icons = {
         background_transparent =         {0,197,34,212},
         toggle_circle_hollow =           {70,2,27,26},
@@ -74,6 +75,7 @@ function zMenuClass:init(x,y,w,h,res_x,res_y,open_on_init)
     self:initTabs()
     self:setCurrentActiveTab("weapon_stats_tab",true)
 end
+local box_id = 0
 function zMenuClass:make_box(panel,ignore_background,with_grow)
     local panel_w,panel_h = panel:w(),panel:h()
     local grow = with_grow and "grow" or nil
@@ -83,7 +85,11 @@ function zMenuClass:make_box(panel,ignore_background,with_grow)
     if ignore_background then
         return
     end
-    panel:bitmap({halign = grow,valign = grow,name = "background_texture",texture = "guis/textures/z_background_pattern", texture_rect = {0,0,(panel_w-8)/self.pattern_scale_mul,(panel_h-8)/self.pattern_scale_mul},x = 4,y = 4,w = panel_w - 8,h = panel_h - 8,layer = 1})
+    local grow_bitmap = panel:bitmap({halign = grow,valign = grow,texture = "guis/textures/z_background_pattern", texture_rect = {0,0,(panel_w-8)/self.pattern_scale_mul,(panel_h-8)/self.pattern_scale_mul},x = 4,y = 4,w = panel_w - 8,h = panel_h - 8,layer = 1})
+    box_id = box_id + 1
+    if grow then
+        self.grow_bitmap_list["box_id_" .. box_id] = grow_bitmap
+    end
 end
 function zMenuClass:add_profile_picture()
     if not self.cached_profile_picture_data then
