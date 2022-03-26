@@ -87,8 +87,8 @@ function zMenuClass:make_box(panel,ignore_background,with_grow)
         return
     end
     local grow_bitmap = panel:bitmap({halign = grow,valign = grow,texture = "guis/textures/z_background_pattern", texture_rect = {0,0,(panel_w-8)/self.pattern_scale_mul,(panel_h-8)/self.pattern_scale_mul},x = 4,y = 4,w = panel_w - 8,h = panel_h - 8,layer = 1})
-    box_id = box_id + 1
     if grow then
+        box_id = box_id + 1
         self.grow_bitmap_list["box_id_" .. box_id] = grow_bitmap
     end
 end
@@ -133,6 +133,11 @@ function zMenuClass:isMenuopen()
     return self.menu_enabled
 end
 function zMenuClass:openMenu()
+    if self.mouse_resize_panel_state or self.mouse_move_panel_state then
+        self:saveMenuTransformData()
+        self.mouse_resize_panel_state = nil
+        self.mouse_move_panel_state = nil
+    end
     managers.menu._input_enabled = false
 	for _, menu in ipairs(managers.menu._open_menus) do
 		menu.input._controller:disable()
@@ -148,8 +153,22 @@ function zMenuClass:openMenu()
     self._controller:enable()
     self.menu_enabled = true
     self.menu_master_panel:set_visible(true)
+    self.menu_master_panel:stop()
+    self.menu_master_panel:animate(function(o) zMenuTools:animate_UI(1,
+        function(p)
+            o:set_h(math.lerp(o:h(),self.feature_panel:h()+10,p))
+            o:set_alpha(math.lerp(o:alpha(),1,p))
+            self:doShittyTextFix()
+        end)
+    end)
+    
 end
 function zMenuClass:closeMenu()
+    if self.mouse_resize_panel_state or self.mouse_move_panel_state then
+        self:saveMenuTransformData()
+        self.mouse_resize_panel_state = nil
+        self.mouse_move_panel_state = nil
+    end
     managers.mouse_pointer:remove_mouse(self.menu_mouse_id)
 	if self._controller then
 		self._controller:destroy()
@@ -160,7 +179,16 @@ function zMenuClass:closeMenu()
         menu.input._controller:enable()
     end
     self.menu_enabled = false
-    self.menu_master_panel:set_visible(false)
+    self.menu_master_panel:stop()
+    self.menu_master_panel:animate(function(o) zMenuTools:animate_UI(1,
+        function(p)
+            o:set_h(math.lerp(o:h(),4,p))
+            o:set_alpha(math.lerp(o:alpha(),0,p))
+            self:doShittyTextFix()
+        end)
+        o:set_visible(false)
+    end)
+    
 end
 function zMenuClass:keyboard_cancel()
     if self:isMenuopen() then
