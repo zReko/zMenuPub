@@ -16,23 +16,28 @@ function zMenuClass:resizeBitmapBox(bitmap)
 end
 
 function zMenuClass:resizeMenu(new_x,new_y)
-    self.menu_master_panel:grow(new_x,new_y)
+    local master_pan = self.menu_master_panel
+    master_pan:grow(new_x,new_y)
     self.feature_panel:grow(new_x,new_y)
-    local pan_width = (self.feature_panel_main:w()-(5*(self.num_of_cols-1))) / self.num_of_cols
-    for i, v in pairs(self.active_feature_panels) do
-        v:set_x((5*(i-1))+(pan_width*(i-1)))
-        v:set_w(pan_width)
-    end
     self.left_side_panel:grow(0,new_y)
-    for i, v in pairs(self.grow_bitmap_list) do
-        if tostring(v) == "[Bitmap NULL]" then
-            self.grow_bitmap_list[i] = nil
-        else
-            self:resizeBitmapBox(v)
+    self.profile_pic:set_y(master_pan:h()-95)
+    self.master_panel_mouse_resize_panel:set_position(master_pan:w()-18,master_pan:h()-18)
+
+    if math.abs(new_x) > 0 then
+        local cols = self.num_of_cols
+        local pan_width = (self.feature_panel_main:w()-(5*(cols-1))) / cols
+        for i, v in pairs(self.active_feature_panels) do
+            v:set_x((5*(i-1))+(pan_width*(i-1)))
+            v:set_w(pan_width)
+        end
+        for i, v in pairs(self.grow_bitmap_list) do
+            if tostring(v) == "[Bitmap NULL]" then
+                self.grow_bitmap_list[i] = nil
+            else
+                self:resizeBitmapBox(v)
+            end
         end
     end
-    self.profile_pic:set_y(self.menu_master_panel:h()-95)
-    self.master_panel_mouse_resize_panel:set_position(self.menu_master_panel:w()-18,self.menu_master_panel:h()-18)
     self:adjustScrollWhenScaling(new_y)
     self:doShittyTextFix()
 end

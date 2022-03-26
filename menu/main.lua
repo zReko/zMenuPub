@@ -23,9 +23,10 @@ function zMenuClass:init(x,y,w,h,res_x,res_y,open_on_init)
     end
     local file = io.open(zMenuTools:modPath() .. "menu_data/menu_data.json","r")
     local text = file:read("*all")
+    local saved_tab_id = "weapon_stats_tab"
     if text ~= "" and (string.len(text) > 2) then
         local temp = json.decode(text)
-        x,y,w,h = temp.x,temp.y,temp.w,temp.h
+        x,y,w,h,saved_tab_id = temp.x,temp.y,temp.w,temp.h,temp.last_tab_id or saved_tab_id
     end
     file:close()
     --res_y = res_y*2
@@ -73,7 +74,7 @@ function zMenuClass:init(x,y,w,h,res_x,res_y,open_on_init)
     self.raw_menu_layout = self:getMenuLayout()
     self:initMenuBoxes()
     self:initTabs()
-    self:setCurrentActiveTab("weapon_stats_tab",true)
+    self:setCurrentActiveTab(saved_tab_id,true)
 end
 local box_id = 0
 function zMenuClass:make_box(panel,ignore_background,with_grow)

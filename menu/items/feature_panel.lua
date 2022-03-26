@@ -14,7 +14,7 @@ function zMenuClass:removePreviousFeaturePanel()
     end
 end
 
-function zMenuClass:buildFeaturePanel()
+function zMenuClass:buildFeaturePanel(skip_anim)
     self:removePreviousFeaturePanel()
     local data = self.raw_menu_layout.main_features[self.currentActiveTab] or {}
     self.num_of_cols = #data
@@ -23,7 +23,7 @@ function zMenuClass:buildFeaturePanel()
     local px,py,pw,ph = self.feature_panel_main:shape()
     --self:debug_panel_outline(self.feature_panel_main)
     for i, v in pairs(data) do
-        local column_panel = self.feature_panel_main:panel({y = 0,halign = "grow",x = (5*(i-1))+(pan_width*(i-1)), w = pan_width,alpha = 0})
+        local column_panel = self.feature_panel_main:panel({y = 0,halign = "grow",x = (5*(i-1))+(pan_width*(i-1)), w = pan_width,alpha = 1})
         local total_h = 0
         for ii = 1, 20, 1 do
             local ass = column_panel:panel({halign = "grow",y=((ii-1)*25),h = 25})
@@ -33,14 +33,17 @@ function zMenuClass:buildFeaturePanel()
             ass:text({halign = "grow",x = -5,text = "test",y = 3, font_size = 16,align = "right",font = "fonts/font_small_mf",color = Color(1,1,1),layer = 51})
             total_h = total_h + 25
         end
-        column_panel:set_y(-total_h*2)
         column_panel:set_h(total_h)
-        column_panel:animate(function(o) zMenuTools:animate_UI(2,
-            function(p)
-                o:set_y(math.lerp(o:y(),0,p))
-                o:set_alpha(math.lerp(o:alpha(),1,p))
+        if not skip_anim then
+            column_panel:set_alpha(0)
+            column_panel:set_y(-total_h*2)
+            column_panel:animate(function(o) zMenuTools:animate_UI(2,
+                function(p)
+                    o:set_y(math.lerp(o:y(),0,p))
+                    o:set_alpha(math.lerp(o:alpha(),1,p))
+                end)
             end)
-        end)
+        end
         --self:debug_panel_outline(column_panel)
         table.insert(self.active_feature_panels,column_panel)
     end

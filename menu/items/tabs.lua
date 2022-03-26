@@ -10,7 +10,7 @@ function zMenuClass:createTabButton(parent,height,item,hh)
     self.tab_items[item.menu_id] = {panel = item_panel,menu_id = item.menu_id,button_text = text}
 end
 function zMenuClass:animSelectedTabText(item)
-    local t = 0.5
+    local t = 0.45
     self:unHighlightElement()
     item:animate(function(o) zMenuTools:animateInf_UI(function(p)
             t = t + (1*zMenuTools:currentTimeDelta())
@@ -56,7 +56,10 @@ function zMenuClass:checkTabHover()
         end
     end
 end
-function zMenuClass:setCurrentActiveTab(tab_id,play_anim)
+function zMenuClass:setCurrentActiveTab(tab_id,skip_anim)
+    if not self.tab_items[tab_id] then
+        return
+    end
     if self.currentActiveTab then
         local item = self.tab_items[self.currentActiveTab].button_text
         item:stop()
@@ -70,7 +73,7 @@ function zMenuClass:setCurrentActiveTab(tab_id,play_anim)
         end)
     end
     local item = self.tab_items[tab_id].button_text
-    if play_anim then
+    if skip_anim then
         item:set_font_size(22)
         item:set_y(3)
         item:set_color(Color(0.2,0.6,1))
@@ -87,10 +90,11 @@ function zMenuClass:setCurrentActiveTab(tab_id,play_anim)
             end)
         end)
     end
-    self:setPointerImg(self.mouse_icons.pointer)
     self.currentActiveTab = tab_id
     self.currentTabHover = nil
-    self:buildFeaturePanel()
+    self:setPointerImg(self.mouse_icons.pointer)
+    self:saveMenuTransformData()
+    self:buildFeaturePanel(skip_anim)
 end
 function zMenuClass:checkTabClick()
     for i,v in pairs(self.tab_items) do

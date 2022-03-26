@@ -155,15 +155,6 @@ function zMenuToolsClass:isPackageLoaded(pack)
     end
     return false
 end
-function zMenuToolsClass:CoroutineAnim(TOTAL_T, callback)
-	local t = 0
-	while t < TOTAL_T do
-		coroutine.yield()
-		t = t + self:currentTimeDelta()
-		callback(t / TOTAL_T, t)
-	end
-	callback(1, TOTAL_T)
-end
 function zMenuToolsClass:animate_UI(TOTAL_T, callback)
     local t = 0
     local const_frames = 0
